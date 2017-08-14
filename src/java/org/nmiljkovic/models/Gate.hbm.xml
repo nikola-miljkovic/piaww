@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Aug 13, 2017 2:52:36 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="org.nmiljkovic.models.Gate" table="gate" catalog="pia_prj" optimistic-lock="version">
+        <id name="id" type="int">
+            <column name="id" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="airport" class="org.nmiljkovic.models.Airport" fetch="select">
+            <column name="airport" length="3" not-null="true" />
+        </many-to-one>
+        <property name="terminal" type="int">
+            <column name="terminal" not-null="true" />
+        </property>
+        <property name="gate" type="string">
+            <column name="gate" length="10" not-null="true" />
+        </property>
+        <set name="flightsForEndGate" table="flight" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="end_gate" not-null="true" />
+            </key>
+            <one-to-many class="org.nmiljkovic.models.Flight" />
+        </set>
+        <set name="flightsForStartGate" table="flight" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="start_gate" not-null="true" />
+            </key>
+            <one-to-many class="org.nmiljkovic.models.Flight" />
+        </set>
+    </class>
+</hibernate-mapping>

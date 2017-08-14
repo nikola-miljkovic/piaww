@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Aug 13, 2017 2:52:36 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="org.nmiljkovic.models.Airport" table="airport" catalog="pia_prj" optimistic-lock="version">
+        <id name="id" type="string">
+            <column name="id" length="3" />
+            <generator class="assigned" />
+        </id>
+        <property name="name" type="string">
+            <column name="name" length="128" not-null="true" />
+        </property>
+        <property name="runwayCount" type="int">
+            <column name="runway_count" not-null="true" />
+        </property>
+        <property name="city" type="string">
+            <column name="city" length="128" not-null="true" />
+        </property>
+        <property name="country" type="string">
+            <column name="country" length="128" not-null="true" />
+        </property>
+        <set name="flightsForAirport" table="flight" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="airport" length="3" not-null="true" />
+            </key>
+            <one-to-many class="org.nmiljkovic.models.Flight" />
+        </set>
+        <set name="flightsForDestAirport" table="flight" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="dest_airport" length="3" not-null="true" />
+            </key>
+            <one-to-many class="org.nmiljkovic.models.Flight" />
+        </set>
+        <set name="gates" table="gate" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="airport" length="3" not-null="true" />
+            </key>
+            <one-to-many class="org.nmiljkovic.models.Gate" />
+        </set>
+    </class>
+</hibernate-mapping>

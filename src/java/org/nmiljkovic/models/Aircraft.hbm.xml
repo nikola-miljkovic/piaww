@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Aug 13, 2017 2:52:36 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="org.nmiljkovic.models.Aircraft" table="aircraft" catalog="pia_prj" optimistic-lock="version">
+        <id name="id" type="int">
+            <column name="id" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="aircraftType" class="org.nmiljkovic.models.AircraftType" fetch="select">
+            <column name="type" not-null="true" />
+        </many-to-one>
+        <many-to-one name="airways" class="org.nmiljkovic.models.Airways" fetch="select">
+            <column name="owner" not-null="true" />
+        </many-to-one>
+        <many-to-one name="manufacturer" class="org.nmiljkovic.models.Manufacturer" fetch="select">
+            <column name="manufacturer" not-null="true" />
+        </many-to-one>
+        <set name="flights" table="flight" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="aircraft" not-null="true" />
+            </key>
+            <one-to-many class="org.nmiljkovic.models.Flight" />
+        </set>
+    </class>
+</hibernate-mapping>

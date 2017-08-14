@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Aug 13, 2017 2:52:36 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="org.nmiljkovic.models.FlightRadars" table="flight_radars" catalog="pia_prj" optimistic-lock="version">
+        <composite-id name="id" class="org.nmiljkovic.models.FlightRadarsId">
+            <key-property name="position" type="int">
+                <column name="position" />
+            </key-property>
+            <key-property name="flight" type="string">
+                <column name="flight" length="10" />
+            </key-property>
+            <key-property name="radar" type="string">
+                <column name="radar" length="10" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="flight" class="org.nmiljkovic.models.Flight" update="false" insert="false" fetch="select">
+            <column name="flight" length="10" not-null="true" />
+        </many-to-one>
+        <many-to-one name="radar" class="org.nmiljkovic.models.Radar" update="false" insert="false" fetch="select">
+            <column name="radar" length="10" not-null="true" />
+        </many-to-one>
+    </class>
+</hibernate-mapping>

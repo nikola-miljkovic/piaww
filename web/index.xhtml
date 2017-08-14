@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/WEB-INF/templates/masterTemplate.xhtml"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets" 
+        xmlns:p="http://primefaces.org/ui">
+    <ui:define name="title">Home</ui:define>
+
+    <ui:define name="content">
+        <div class="ui-g">
+            <div class="ui-g-3">
+                <h:form>
+                    <p:messages id="messages" showDetail="true" autoUpdate="true" />
+
+                    <h:panelGrid columns="2">
+                        <h:outputText value="Povratni:" />
+                        <p:selectBooleanCheckbox value="#{flightSearchFormView.twoWay}" >
+                            <f:ajax event="change" execute="@this" render="perfbyselection" />
+                        </p:selectBooleanCheckbox>
+
+                        <h:outputText value="Direktan: " />
+                        <p:selectBooleanCheckbox value="#{flightSearchFormView.direct}" />
+
+                        <p:inputText id="inputDeparture" value="#{flightSearchFormView.departure}" required="true" placeholder="BEG: Belgrade"/>
+
+                        <p:inputText id="inputDestination" value="#{flightSearchFormView.destination}" placeholder="NYC: New York City"/>
+
+                        <p:calendar id="inputDepartureDate" value="#{flightSearchFormView.departureDate}" required="true" placeholder="Departure"/>
+
+                        <p:calendar id="inputReturnDate" value="#{flightSearchFormView.returnDate}" placeholder="Return Date" rendered="#{flightSearchFormView.twoWay eq true}"/>
+                    </h:panelGrid>
+
+                    <p:outputLabel for="inputAdults" value="Odraslih:" />
+                    <p:inputText id="inputAdults" value="#{flightSearchFormView.adults}" />
+                    <p:slider for="inputAdults" minValue="1" maxValue="8"/>
+                        
+                    <p:commandButton value="Submit" icon="ui-icon-check" action="#{registerView.submit}" />
+                </h:form>
+            </div>
+            <div class="ui-g-3">
+            </div>
+            <div class="ui-g-3">
+            </div>
+            <div class="ui-g-3">
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>
+

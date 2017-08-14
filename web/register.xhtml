@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/WEB-INF/templates/masterTemplate.xhtml"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets" 
+        xmlns:p="http://primefaces.org/ui">
+    <ui:define name="title">Sign Up</ui:define>
+
+    <ui:define name="content">
+        <h:form>
+            <p:messages id="messages" showDetail="true" autoUpdate="true" />
+            
+            <h:panelGrid columns="2" cellpadding="10">
+                <p:outputLabel value="Ime:" for="inputFirstName" />
+                <p:inputText id="inputFirstName" value="#{registerView.firstName}" />
+
+                <p:outputLabel value="Prezime:" for="inputLastName" />
+                <p:inputText id="inputLastName" value="#{registerView.lastName}" />
+                
+                <p:outputLabel value="Email:" for="inputEmail" />
+                <p:inputText id="inputEmail" value="#{registerView.email}" type="email" />
+                
+                <p:outputLabel value="Korisničko ime:" for="inputUsername" />
+                <p:inputText id="inputUsername" value="#{registerView.username}" />
+                
+                <p:outputLabel value="Password:" for="inputPassword1" />
+                <p:password id="inputPassword1" value="#{registerView.password}" match="inputPassword2" label="Password" feedback="true"  />
+
+                <p:outputLabel value="Repeat Password:" for="inputPassword2" />
+                <p:password id="inputPassword2" value="#{registerView.password}" label="Repeat Password" required="true" />
+                
+                <p:outputLabel value="Sex:" for="inputSex" />
+                <p:selectOneMenu id="inputSex" value="#{registerView.sex}">
+                    <f:selectItem itemLabel="Male" itemValue="1" />
+                    <f:selectItem itemLabel="Female" itemValue="2" />
+                </p:selectOneMenu>
+                
+                <p:outputLabel for="inputDateOfBirth" value="Datum Rodjenja:" />
+                <p:calendar id="inputDateOfBirth" value="#{registerView.dateOfBirth}" />
+                
+                <p:outputLabel for="inputAirwaysId" value="Avio kompanija:" />
+                <p:selectOneMenu id="inputAirwaysId" value="#{registerView.airwaysId}">
+                    <f:selectItem itemLabel="Select One" itemValue="" />
+                    <f:selectItems value="#{registerView.airwaysList}" var="airways" itemValue="#{airways.id}" itemLabel="#{airways.name}"/>
+                </p:selectOneMenu>
+            </h:panelGrid>
+             
+            <p:commandButton value="Submit" icon="ui-icon-check" action="#{registerView.submit}" />
+        </h:form>
+    </ui:define>
+</ui:composition>
+

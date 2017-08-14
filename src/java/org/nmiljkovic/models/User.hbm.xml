@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Aug 13, 2017 2:52:36 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="org.nmiljkovic.models.User" table="user" catalog="pia_prj" optimistic-lock="version">
+        <id name="id" type="java.lang.Integer">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="airways" class="org.nmiljkovic.models.Airways" fetch="select">
+            <column name="employeer" not-null="true" />
+        </many-to-one>
+        <property name="flag" type="int">
+            <column name="flag" not-null="true" />
+        </property>
+        <property name="firstName" type="string">
+            <column name="firstName" length="64" not-null="true" />
+        </property>
+        <property name="lastName" type="string">
+            <column name="lastName" length="64" not-null="true" />
+        </property>
+        <property name="dateOfBirth" type="date">
+            <column name="dateOfBirth" length="10" not-null="true" />
+        </property>
+        <property name="email" type="string">
+            <column name="email" length="64" not-null="true" unique="true" />
+        </property>
+        <property name="username" type="string">
+            <column name="username" length="64" not-null="true" unique="true" />
+        </property>
+        <property name="password" type="string">
+            <column name="password" length="256" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>
