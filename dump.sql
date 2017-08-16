@@ -1,8 +1,8 @@
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
--- Host: localhost    Database: pia_prj
+-- Host: 127.0.0.1    Database: pia_prj
 -- ------------------------------------------------------
--- Server version	5.7.17-log
+-- Server version	5.7.19-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -101,6 +101,7 @@ CREATE TABLE `airport` (
 
 LOCK TABLES `airport` WRITE;
 /*!40000 ALTER TABLE `airport` DISABLE KEYS */;
+INSERT INTO `airport` VALUES ('BEG','Aerodrom Nikola Tesla Beograd',20,'Belgrade','Serbia'),('TIV','Aerodrom Tivat',20,'Tivat','Serbia');
 /*!40000 ALTER TABLE `airport` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -149,8 +150,8 @@ CREATE TABLE `flight` (
   `arrival` date NOT NULL,
   `duration` int(11) NOT NULL,
   `status` varchar(45) NOT NULL,
-  `eta` date NOT NULL,
-  `arrived_at` date NOT NULL,
+  `eta` date DEFAULT NULL,
+  `arrived_at` date DEFAULT NULL,
   `start_gate` int(11) NOT NULL,
   `end_gate` int(11) NOT NULL,
   PRIMARY KEY (`id`),
@@ -228,6 +229,7 @@ CREATE TABLE `gate` (
 
 LOCK TABLES `gate` WRITE;
 /*!40000 ALTER TABLE `gate` DISABLE KEYS */;
+INSERT INTO `gate` VALUES (1,1,'A1','BEG'),(2,1,'A2','BEG'),(3,1,'A3','BEG'),(4,1,'A4','BEG'),(5,1,'A5','BEG'),(6,1,'A6','BEG'),(7,2,'A7','BEG'),(8,2,'A8','BEG'),(9,2,'A9','BEG'),(10,2,'A10','BEG'),(11,2,'A11','BEG'),(12,2,'A12','BEG'),(13,1,'A1','TIV'),(14,1,'A2','TIV'),(15,1,'A3','TIV'),(16,1,'A4','TIV'),(17,1,'A5','TIV'),(18,1,'A6','TIV'),(19,2,'A7','TIV'),(20,2,'A8','TIV'),(21,2,'A9','TIV'),(22,2,'A10','TIV'),(23,2,'A11','TIV'),(24,2,'A12','TIV');
 /*!40000 ALTER TABLE `gate` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -322,4 +324,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-08-15  0:34:01
+-- Dump completed on 2017-08-15 19:17:59
