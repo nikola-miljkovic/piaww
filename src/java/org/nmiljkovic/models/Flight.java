@@ -1,5 +1,5 @@
 package org.nmiljkovic.models;
-// Generated Aug 13, 2017 2:52:35 PM by Hibernate Tools 4.3.1
+// Generated Aug 19, 2017 11:27:07 AM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -29,8 +29,22 @@ public class Flight  implements java.io.Serializable {
 
     public Flight() {
     }
-    
-    public Flight(String id, Aircraft aircraft, Airport airportByAirport, Airport airportByDestAirport, Gate gateByEndGate, Gate gateByStartGate, byte charter, Date departure, Date arrival, int duration, String status, Date eta, Date arrivedAt) {
+
+	
+    public Flight(String id, Aircraft aircraft, Airport airportByAirport, Airport airportByDestAirport, Gate gateByEndGate, Gate gateByStartGate, byte charter, Date departure, Date arrival, int duration, String status) {
+        this.id = id;
+        this.aircraft = aircraft;
+        this.airportByAirport = airportByAirport;
+        this.airportByDestAirport = airportByDestAirport;
+        this.gateByEndGate = gateByEndGate;
+        this.gateByStartGate = gateByStartGate;
+        this.charter = charter;
+        this.departure = departure;
+        this.arrival = arrival;
+        this.duration = duration;
+        this.status = status;
+    }
+    public Flight(String id, Aircraft aircraft, Airport airportByAirport, Airport airportByDestAirport, Gate gateByEndGate, Gate gateByStartGate, byte charter, Date departure, Date arrival, int duration, String status, Date eta, Date arrivedAt, Set flightRadarses) {
        this.id = id;
        this.aircraft = aircraft;
        this.airportByAirport = airportByAirport;
@@ -44,6 +58,7 @@ public class Flight  implements java.io.Serializable {
        this.status = status;
        this.eta = eta;
        this.arrivedAt = arrivedAt;
+       this.flightRadarses = flightRadarses;
     }
    
     public String getId() {
@@ -67,6 +82,7 @@ public class Flight  implements java.io.Serializable {
     public void setAirportByAirport(Airport airportByAirport) {
         this.airportByAirport = airportByAirport;
     }
+    
     public Airport getAirportByDestAirport() {
         return this.airportByDestAirport;
     }

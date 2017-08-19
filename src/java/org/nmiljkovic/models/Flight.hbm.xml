@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Aug 13, 2017 2:52:36 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated Aug 19, 2017 11:27:08 AM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="org.nmiljkovic.models.Flight" table="flight" catalog="pia_prj" optimistic-lock="version">
         <id name="id" type="string">
@@ -39,10 +39,10 @@
             <column name="status" length="45" not-null="true" />
         </property>
         <property name="eta" type="date">
-            <column name="eta" length="10" not-null="true" />
+            <column name="eta" length="10" />
         </property>
         <property name="arrivedAt" type="date">
-            <column name="arrived_at" length="10" not-null="true" />
+            <column name="arrived_at" length="10" />
         </property>
         <set name="flightRadarses" table="flight_radars" inverse="true" lazy="true" fetch="select">
             <key>

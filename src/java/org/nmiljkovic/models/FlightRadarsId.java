@@ -1,5 +1,5 @@
 package org.nmiljkovic.models;
-// Generated Aug 13, 2017 2:52:35 PM by Hibernate Tools 4.3.1
+// Generated Aug 19, 2017 11:27:07 AM by Hibernate Tools 4.3.1
 
 
 

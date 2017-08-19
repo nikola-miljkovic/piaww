@@ -1,5 +1,5 @@
 package org.nmiljkovic.models;
-// Generated Aug 13, 2017 2:52:35 PM by Hibernate Tools 4.3.1
+// Generated Aug 19, 2017 11:27:07 AM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -10,15 +10,15 @@ import java.util.Date;
 public class User  implements java.io.Serializable {
 
 
-    private Integer id;
-    private Airways airways;
-    private int flag;
-    private String firstName;
-    private String lastName;
-    private Date dateOfBirth;
-    private String email;
-    private String username;
-    private String password;
+     private Integer id;
+     private Airways airways;
+     private int flag;
+     private String firstName;
+     private String lastName;
+     private Date dateOfBirth;
+     private String email;
+     private String username;
+     private String password;
 
     public User() {
     }
@@ -97,6 +97,10 @@ public class User  implements java.io.Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
+
+
+
+
 }
 
 

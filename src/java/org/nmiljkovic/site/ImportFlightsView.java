@@ -8,13 +8,17 @@ import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
+import java.util.HashSet;
+import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import org.nmiljkovic.dao.AircraftRepository;
 import org.nmiljkovic.dao.AirportRepository;
+import org.nmiljkovic.dao.FlightRepository;
 import org.nmiljkovic.dao.GateRepository;
+import org.nmiljkovic.dao.RadarRepository;
 import org.nmiljkovic.dto.FlightDataDto;
 import org.nmiljkovic.exceptions.AicraftNotFoundException;
 import org.nmiljkovic.exceptions.AirportNotFoundException;
@@ -24,6 +28,7 @@ import org.nmiljkovic.models.Aircraft;
 import org.nmiljkovic.models.Airport;
 import org.nmiljkovic.models.Flight;
 import org.nmiljkovic.models.Gate;
+import org.nmiljkovic.models.Radar;
 import org.primefaces.model.UploadedFile;
 
 @ManagedBean
@@ -33,11 +38,15 @@ public class ImportFlightsView {
     private static final AircraftRepository aircraftRepo;
     private static final AirportRepository airportRepo;
     private static final GateRepository gateRepo;
+    private static final RadarRepository radarRepo;
+    private static final FlightRepository flightRepo;
     
     static {
         aircraftRepo = new AircraftRepository();
         airportRepo = new AirportRepository();
         gateRepo = new GateRepository();
+        radarRepo = new RadarRepository();
+        flightRepo = new FlightRepository();
     }
     
     public ImportFlightsView() {
@@ -78,13 +87,16 @@ public class ImportFlightsView {
         if (arrivalGate == null) {
             throw new GateNotFoundException(flightData.arrivalGate, flightData.arrivalAirport);
         }
-
-        Flight newFlight = new Flight(flightData.flightNo, aircraft, arrivalAirport, departureAirport, 
-                arrivalGate, departureGate, 
-                flightData.charter ? 1 : 0, flightData.startTime, 
-                flightData.startTime, 
-                flightData.duration, 
-                0, null, null);
+        
+        List<Radar> radars = radarRepo.getRadarList(flightData.radars);
+        
+        byte isCharter = (byte)(flightData.charter ? 1 : 0);
+        Flight newFlight = new Flight(flightData.flightNo, aircraft, 
+                arrivalAirport, departureAirport, arrivalGate, departureGate, 
+                isCharter, flightData.startTime, flightData.startTime, 
+                flightData.duration, "P");
+        
+        flightRepo.createFlight(newFlight, radars);
     }
     
     public void upload() {
