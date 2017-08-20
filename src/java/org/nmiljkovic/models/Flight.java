@@ -1,5 +1,5 @@
 package org.nmiljkovic.models;
-// Generated Aug 19, 2017 11:27:07 AM by Hibernate Tools 4.3.1
+// Generated Aug 20, 2017 9:06:03 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -25,13 +25,15 @@ public class Flight  implements java.io.Serializable {
      private String status;
      private Date eta;
      private Date arrivedAt;
+     private int booked;
+     private Set bookings = new HashSet(0);
      private Set flightRadarses = new HashSet(0);
 
     public Flight() {
     }
 
 	
-    public Flight(String id, Aircraft aircraft, Airport airportByAirport, Airport airportByDestAirport, Gate gateByEndGate, Gate gateByStartGate, byte charter, Date departure, Date arrival, int duration, String status) {
+    public Flight(String id, Aircraft aircraft, Airport airportByAirport, Airport airportByDestAirport, Gate gateByEndGate, Gate gateByStartGate, byte charter, Date departure, Date arrival, int duration, String status, int booked) {
         this.id = id;
         this.aircraft = aircraft;
         this.airportByAirport = airportByAirport;
@@ -43,8 +45,9 @@ public class Flight  implements java.io.Serializable {
         this.arrival = arrival;
         this.duration = duration;
         this.status = status;
+        this.booked = booked;
     }
-    public Flight(String id, Aircraft aircraft, Airport airportByAirport, Airport airportByDestAirport, Gate gateByEndGate, Gate gateByStartGate, byte charter, Date departure, Date arrival, int duration, String status, Date eta, Date arrivedAt, Set flightRadarses) {
+    public Flight(String id, Aircraft aircraft, Airport airportByAirport, Airport airportByDestAirport, Gate gateByEndGate, Gate gateByStartGate, byte charter, Date departure, Date arrival, int duration, String status, Date eta, Date arrivedAt, int booked, Set bookings, Set flightRadarses) {
        this.id = id;
        this.aircraft = aircraft;
        this.airportByAirport = airportByAirport;
@@ -58,6 +61,8 @@ public class Flight  implements java.io.Serializable {
        this.status = status;
        this.eta = eta;
        this.arrivedAt = arrivedAt;
+       this.booked = booked;
+       this.bookings = bookings;
        this.flightRadarses = flightRadarses;
     }
    
@@ -82,7 +87,6 @@ public class Flight  implements java.io.Serializable {
     public void setAirportByAirport(Airport airportByAirport) {
         this.airportByAirport = airportByAirport;
     }
-    
     public Airport getAirportByDestAirport() {
         return this.airportByDestAirport;
     }
@@ -153,6 +157,20 @@ public class Flight  implements java.io.Serializable {
     public void setArrivedAt(Date arrivedAt) {
         this.arrivedAt = arrivedAt;
     }
+    public int getBooked() {
+        return this.booked;
+    }
+    
+    public void setBooked(int booked) {
+        this.booked = booked;
+    }
+    public Set getBookings() {
+        return this.bookings;
+    }
+    
+    public void setBookings(Set bookings) {
+        this.bookings = bookings;
+    }
     public Set getFlightRadarses() {
         return this.flightRadarses;
     }
@@ -160,10 +178,11 @@ public class Flight  implements java.io.Serializable {
     public void setFlightRadarses(Set flightRadarses) {
         this.flightRadarses = flightRadarses;
     }
-
-
-
-
+    
+    public Date getDurationAsDate() {
+        Date date = new Date(this.duration * 60000);
+        return date;
+    }
 }
 
 

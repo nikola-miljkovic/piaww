@@ -6,6 +6,7 @@
 package org.nmiljkovic.dao;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import org.hibernate.Query;
@@ -47,7 +48,7 @@ public class FlightRepository {
         try {
             session.beginTransaction();
             session.save(flight);
-            int count = 1;
+            int count = 0;
             for (Radar radar : radars) {
                 FlightRadarsId flightRadarsId = new FlightRadarsId(count++, flight.getId(), radar.getName());
                 FlightRadars flightRadar = new FlightRadars(flightRadarsId, flight, radar);
@@ -60,5 +61,37 @@ public class FlightRepository {
         }
         
         return flight;
+    }
+
+    public List<Flight> getAllFlightsWithCriteria(String departure, String destination, Date departureDate, Date returnDate, int adults, boolean direct, boolean twoWay) {
+        List<Flight> flights = null;
+        try {
+            session.beginTransaction();
+            Query q = session.createQuery("from Flight as flight where " 
+                    + "flight.airportByAirport = '" + departure + "' "
+                    + "and flight.airportByDestAirport = '" + destination + "' ");
+            flights = (List<Flight>)q.list();
+        } catch (Exception exc) {
+            
+        } finally {
+            session.getTransaction().commit();
+        }
+        
+        return flights;
+    }
+
+    public List<Flight> getTodaysFlights() {
+        List<Flight> flights = null;
+        try {
+            session.beginTransaction();
+            Query q = session.createQuery("from Flight");
+            flights = (List<Flight>)q.list();
+        } catch (Exception exc) {
+            
+        } finally {
+            session.getTransaction().commit();
+        }
+        
+        return flights;
     }
 }

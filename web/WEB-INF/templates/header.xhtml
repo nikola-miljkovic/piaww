@@ -6,18 +6,25 @@
     xmlns:ui="http://java.sun.com/jsf/facelets" 
     xmlns:p="http://primefaces.org/ui"
 >
-    <div class="content">
+    <div class="header">
         <div class="ui-g">
-            <div class="ui-g-3">
+            <h:panelGroup class="ui-g-3" rendered="#{!contextBean.isLoggedIn}">
                 <p:link outcome="login" value="Login">
                 </p:link>
-            </div>
-            <div class="ui-g-3">
+            </h:panelGroup>
+            <h:panelGroup class="ui-g-3" rendered="#{!contextBean.isLoggedIn}">
                 <p:link outcome="register" value="Sign Up">
                 </p:link>
-            </div>
-            <div class="ui-g-3">1</div>
-            <div class="ui-g-3">1</div>
+            </h:panelGroup>
+            <h:panelGroup class="ui-g-3" rendered="#{contextBean.isLoggedIn}">
+                <p:link outcome="index" value="Flights">
+                </p:link>
+            </h:panelGroup>
+            <h:panelGroup class="ui-g-3" rendered="#{contextBean.isLoggedIn}">
+                <h:form>
+                    <p:commandLink action="#{contextBean.logout}" value="Log out" />
+                </h:form>
+            </h:panelGroup>
         </div>
     </div>
 </html>

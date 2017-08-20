@@ -48,6 +48,7 @@ Contributor(s):
     <property name="hibernate.connection.password">root</property>
     <property name="hibernate.show_sql">true</property>
     <property name="hibernate.current_session_context_class">thread</property>
+    <mapping resource="org/nmiljkovic/models/Booking.hbm.xml"/>
     <mapping resource="org/nmiljkovic/models/AircraftType.hbm.xml"/>
     <mapping resource="org/nmiljkovic/models/Gate.hbm.xml"/>
     <mapping resource="org/nmiljkovic/models/Manufacturer.hbm.xml"/>

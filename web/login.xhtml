@@ -16,13 +16,13 @@
     
             <h:panelGrid columns="2" cellpadding="10">
                 <p:outputLabel value="Korisničko ime:" for="inputUsername" />
-                <p:inputText id="inputUsername" value="#{registerView.username}" required="true"/>
+                <p:inputText id="inputUsername" value="#{loginView.username}" required="true"/>
                 
                 <p:outputLabel value="Password:" for="inputPassword" />
-                <p:password id="inputPassword" value="#{registerView.password}" required="true" feedback="true"/>
+                <p:password id="inputPassword" value="#{loginView.password}" required="true" feedback="true"/>
             </h:panelGrid>
              
-            <p:commandButton value="Submit" icon="ui-icon-check" action="#{registerView.submit}" />
+            <p:commandButton value="Submit" icon="ui-icon-check" action="#{loginView.submit}" />
         </h:form>
     </ui:define>
 </ui:composition>

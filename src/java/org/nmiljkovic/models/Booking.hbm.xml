@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Aug 20, 2017 9:06:03 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="org.nmiljkovic.models.Booking" table="booking" catalog="pia_prj" optimistic-lock="version">
+        <id name="id" type="java.lang.Integer">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="flight" class="org.nmiljkovic.models.Flight" fetch="select">
+            <column name="flight" length="10" not-null="true" />
+        </many-to-one>
+        <property name="count" type="int">
+            <column name="count" not-null="true" />
+        </property>
+        <property name="passport" type="long">
+            <column name="passport" not-null="true" />
+        </property>
+        <property name="firstName" type="string">
+            <column name="firstName" length="45" not-null="true" />
+        </property>
+        <property name="lastName" type="string">
+            <column name="lastName" length="45" not-null="true" />
+        </property>
+        <property name="creditCard" type="string">
+            <column name="creditCard" length="45" not-null="true" />
+        </property>
+        <property name="flightCode" type="string">
+            <column name="flightCode" length="8" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -8,6 +8,7 @@ import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
@@ -93,8 +94,8 @@ public class ImportFlightsView {
         byte isCharter = (byte)(flightData.charter ? 1 : 0);
         Flight newFlight = new Flight(flightData.flightNo, aircraft, 
                 arrivalAirport, departureAirport, arrivalGate, departureGate, 
-                isCharter, flightData.startTime, flightData.startTime, 
-                flightData.duration, "P");
+                isCharter, flightData.startTime, new Date(flightData.startTime.getTime() + (flightData.duration * 60000)), 
+                flightData.duration, "P", 0);
         
         flightRepo.createFlight(newFlight, radars);
     }

@@ -8,10 +8,14 @@ package org.nmiljkovic.site;
 import javax.faces.bean.ManagedBean;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
+import org.nmiljkovic.dao.FlightRepository;
+import org.nmiljkovic.models.Flight;
 
 @ManagedBean
-@SessionScoped
+@RequestScoped
 public class FlightSearchFormView implements Serializable {
     
     private static final long serialVersionUID = 1L;
@@ -24,9 +28,19 @@ public class FlightSearchFormView implements Serializable {
     private Date mReturnDate;
     private int mAdults = 1; 
     
+    private List<Flight> flightList;
+    
+    public FlightSearchFormView() {
+        super();
+        
+        FlightRepository flightRepo = new FlightRepository();
+        flightList = flightRepo.getTodaysFlights();
+    }
+    
     public void submit() {
         System.out.println("loginz");
-        //FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "PrimeFaces Rocks."));
+        FlightRepository flightRepo = new FlightRepository();
+        flightList = flightRepo.getAllFlightsWithCriteria(mDeparture, mDestination, mDepartureDate, mReturnDate, mAdults, mDirect, mTwoWay);
     }
 
     public boolean isTwoWay() {
@@ -83,5 +97,13 @@ public class FlightSearchFormView implements Serializable {
 
     public void setAdults(int adults) {
         this.mAdults = adults;
+    }
+
+    public List<Flight> getFlightList() {
+        return flightList;
+    }
+
+    public void setFlightList(List<Flight> flightList) {
+        this.flightList = flightList;
     }
 }

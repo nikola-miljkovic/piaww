@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Aug 19, 2017 11:27:08 AM by Hibernate Tools 4.3.1 -->
+<!-- Generated Aug 20, 2017 9:06:03 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="org.nmiljkovic.models.Manufacturer" table="manufacturer" catalog="pia_prj" optimistic-lock="version">
         <id name="id" type="java.lang.Integer">

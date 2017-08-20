@@ -15,27 +15,35 @@ import org.nmiljkovic.models.User;
 
 @ManagedBean
 @RequestScoped
-public class LoginView implements Serializable {
+public class ContextBean implements Serializable {
     
     private static final long serialVersionUID = 1L;
     
     private String mUsername;
-    private String mPassword;
+    private User mUser;
+    private boolean mIsLoggedIn;
     
-    public String submit() {
+    public ContextBean() {
         FacesContext context = FacesContext.getCurrentInstance();
-        UserRepository userRepo = new UserRepository();
-        User user = userRepo.checkUser(mUsername, mPassword);
+        mUser = (User)context.getExternalContext().getSessionMap().get("user");
         
-        if (user == null) {
-            context.addMessage(null, new FacesMessage("Bad username/password."));
-            mUsername = null;
-            mPassword = null;
-            return null;
+        if (mUser != null) {
+            setUsername(mUser.getUsername());
+            mIsLoggedIn = true;
         } else {
-            context.getExternalContext().getSessionMap().put("user", user);
-            return "index?faces-redirect=true";
+            setUsername(null);
+            mIsLoggedIn = false;
         }
+    }
+    
+    public String logout() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.getExternalContext().invalidateSession();
+        
+        mUser = null;
+        setUsername(null);
+        mIsLoggedIn = false;
+        return "index?faces-redirect=true";
     }
     
     public String getUsername() {
@@ -45,14 +53,8 @@ public class LoginView implements Serializable {
     public void setUsername(String username) {
         this.mUsername = username;
     }
-
-    public String getPassword() {
-        return mPassword;
-    }
-
-    public void setPassword(String password) {
-        this.mPassword = password;
-    }
     
-    
+    public boolean getIsLoggedIn() {
+        return mIsLoggedIn;
+    }
 }

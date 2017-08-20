@@ -9,15 +9,16 @@
     <ui:define name="title">Home</ui:define>
 
     <ui:define name="content">
+        <h:outputText rendered="#{contextBean.isLoggedIn}" value="#{contextBean.username}"></h:outputText>
         <div class="ui-g">
             <div class="ui-g-3">
-                <h:form>
+                <h:form id="searchForm">
                     <p:messages id="messages" showDetail="true" autoUpdate="true" />
 
                     <h:panelGrid columns="2">
                         <h:outputText value="Povratni:" />
                         <p:selectBooleanCheckbox value="#{flightSearchFormView.twoWay}" >
-                            <f:ajax event="change" execute="@this" render="perfbyselection" />
+                            <p:ajax event="change" update="searchForm" />
                         </p:selectBooleanCheckbox>
 
                         <h:outputText value="Direktan: " />
@@ -36,14 +37,51 @@
                     <p:inputText id="inputAdults" value="#{flightSearchFormView.adults}" />
                     <p:slider for="inputAdults" minValue="1" maxValue="8"/>
                         
-                    <p:commandButton value="Submit" icon="ui-icon-check" action="#{registerView.submit}" />
+                    <p:commandButton value="Submit" icon="ui-icon-check" action="#{flightSearchFormView.submit}" update="outputFlightInfo"/>
                 </h:form>
             </div>
-            <div class="ui-g-3">
-            </div>
-            <div class="ui-g-3">
-            </div>
-            <div class="ui-g-3">
+            <div class="ui-g-9">
+                <h:form id="outputFlightInfo"> 
+                    <p:dataTable var="flight" value="#{flightSearchFormView.flightList}">
+                        <p:column headerText="Id" style="text-align: center">
+                            <h:outputText value="#{flight.id}"/>
+                        </p:column>
+
+                        <p:column headerText="Take-off:" style="text-align: center">
+                            <h:outputText value="#{flight.departure}">
+                                <f:convertDateTime pattern="hh:mm a" />
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column headerText="Landing" style="text-align: center">
+                            <h:outputText value="#{flight.arrival}">
+                                <f:convertDateTime pattern="hh:mm a" />
+                            </h:outputText>
+                        </p:column>
+                        
+                        <p:column headerText="Duration" style="text-align: center">
+                            <h:outputText value="#{flight.durationAsDate}">
+                                <f:convertDateTime pattern="HH:mm" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Space left" style="text-align: center">
+                            <h:outputText value="#{flight.booked}/#{flight.aircraft.aircraftType.capacity}">
+                                <f:convertDateTime pattern="HH:mm" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Airlines" style="text-align: center">
+                            <h:outputText value="#{flight.aircraft.airways.name}">
+                                <f:convertDateTime pattern="HH:mm" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="*" style="text-align: center">
+                            <p:button outcome="flightDetail" value="Info" icon="ui-icon-info">
+                                <f:param name="flightId" value="#{flight.id}" />
+                                <f:param name="count" value="#{flightSearchFormView.adults}" />
+                            </p:button>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
             </div>
         </div>
     </ui:define>

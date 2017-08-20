@@ -1,8 +1,8 @@
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: pia_prj
+-- Host: localhost    Database: pia_prj
 -- ------------------------------------------------------
--- Server version	5.7.19-log
+-- Server version	5.7.17-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -65,7 +65,7 @@ CREATE TABLE `aircraft_type` (
   PRIMARY KEY (`id`),
   KEY `manufacturer_type_idx` (`manufacturer`),
   CONSTRAINT `manufacturer_type` FOREIGN KEY (`manufacturer`) REFERENCES `manufacturer` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -146,8 +146,8 @@ CREATE TABLE `flight` (
   `dest_airport` varchar(3) NOT NULL,
   `aircraft` int(11) NOT NULL,
   `charter` tinyint(4) NOT NULL,
-  `departure` date NOT NULL,
-  `arrival` date NOT NULL,
+  `departure` datetime NOT NULL,
+  `arrival` datetime NOT NULL,
   `duration` int(11) NOT NULL,
   `status` varchar(45) NOT NULL,
   `eta` date DEFAULT NULL,
@@ -193,7 +193,7 @@ CREATE TABLE `flight_radars` (
   KEY `radar_radar_idx` (`radar`),
   CONSTRAINT `radar_flight` FOREIGN KEY (`flight`) REFERENCES `flight` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `radar_radar` FOREIGN KEY (`radar`) REFERENCES `radar` (`name`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -277,6 +277,7 @@ CREATE TABLE `radar` (
 
 LOCK TABLES `radar` WRITE;
 /*!40000 ALTER TABLE `radar` DISABLE KEYS */;
+INSERT INTO `radar` VALUES ('BEG'),('TGD'),('TIV'),('ZLA');
 /*!40000 ALTER TABLE `radar` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -302,7 +303,7 @@ CREATE TABLE `user` (
   UNIQUE KEY `username_UNIQUE` (`username`),
   KEY `user_emplyeer_idx` (`employeer`),
   CONSTRAINT `user_emplyeer` FOREIGN KEY (`employeer`) REFERENCES `airways` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -311,7 +312,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,0,'asdadasd','asdadasdasd','2017-08-16','sadadadasas','dadsadasdas','mAirwaysId123T!',1),(2,0,'asdasdasdasdas','dasdasdasddasa','2017-08-25','dadadasdzxzdxzd','dxzxzdzxdzdz','mAirwaysId123T!',1),(3,0,'ssdadsasd','asdadjsiaodjaojd','2017-08-31','milj1337@gmail.com','uasdad','ASDASDDSXsss!!123',1),(4,0,'resadasd','asdadasdas','2017-08-15','dasdasdasda','asdasdadas','ASDASDDSXsss!!123',1),(5,0,'asdsada','sdadas','2017-08-22','dasdasas','dasdasd','ASDASDDSXsss!!123',1),(6,0,'sadasda','dadasd','2017-08-09','asasdasasa','dssasdasasd','ASDASDDSXsss!!123',1),(7,0,'sdadasdas','asdasdasas','2017-08-08','asasdadss','dasdasdadaa','azzxxcv123',1),(8,0,'dadsasda','ddd','2017-08-16','asdda','dasddsds','mAirwaysId123T!',1),(11,0,'Roottest','Roottest','2017-08-08','Roottest','Roottest','Roottest123!',1),(17,0,'test123','test123','2017-08-09','test123','test123','test123!!',1),(20,0,'test1234','test1234','2017-08-14','test1234','test1234','test1234!',1);
+INSERT INTO `user` VALUES (1,0,'asdadasd','asdadasdasd','2017-08-16','sadadadasas','dadsadasdas','mAirwaysId123T!',1),(2,0,'asdasdasdasdas','dasdasdasddasa','2017-08-25','dadadasdzxzdxzd','dxzxzdzxdzdz','mAirwaysId123T!',1),(3,0,'ssdadsasd','asdadjsiaodjaojd','2017-08-31','milj1337@gmail.com','uasdad','ASDASDDSXsss!!123',1),(4,0,'resadasd','asdadasdas','2017-08-15','dasdasdasda','asdasdadas','ASDASDDSXsss!!123',1),(5,0,'asdsada','sdadas','2017-08-22','dasdasas','dasdasd','ASDASDDSXsss!!123',1),(6,0,'sadasda','dadasd','2017-08-09','asasdasasa','dssasdasasd','ASDASDDSXsss!!123',1),(7,0,'sdadasdas','asdasdasas','2017-08-08','asasdadss','dasdasdadaa','azzxxcv123',1),(8,0,'dadsasda','ddd','2017-08-16','asdda','dasddsds','mAirwaysId123T!',1),(11,0,'Roottest','Roottest','2017-08-08','Roottest','Roottest','Roottest123!',1),(17,0,'test123','test123','2017-08-09','test123','test123','test123!!',1),(20,0,'test1234','test1234','2017-08-14','test1234','test1234','test1234!',1),(21,0,'Nikola','Miljkovic','2017-08-24','milja13375@gmail.com','djodzo','djodzo1234',1);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -324,4 +325,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-08-15 19:17:59
+-- Dump completed on 2017-08-20 16:59:50

@@ -51,4 +51,5 @@ Contributor(s):
   <table-filter match-name="radar"/>
   <table-filter match-name="airport"/>
   <table-filter match-name="aircraft_type"/>
+  <table-filter match-name="booking"/>
 </hibernate-reverse-engineering>

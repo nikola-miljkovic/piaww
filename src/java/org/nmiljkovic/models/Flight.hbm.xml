@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Aug 19, 2017 11:27:08 AM by Hibernate Tools 4.3.1 -->
+<!-- Generated Aug 20, 2017 9:06:03 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="org.nmiljkovic.models.Flight" table="flight" catalog="pia_prj" optimistic-lock="version">
         <id name="id" type="string">
@@ -26,11 +26,11 @@
         <property name="charter" type="byte">
             <column name="charter" not-null="true" />
         </property>
-        <property name="departure" type="date">
-            <column name="departure" length="10" not-null="true" />
+        <property name="departure" type="timestamp">
+            <column name="departure" length="19" not-null="true" />
         </property>
-        <property name="arrival" type="date">
-            <column name="arrival" length="10" not-null="true" />
+        <property name="arrival" type="timestamp">
+            <column name="arrival" length="19" not-null="true" />
         </property>
         <property name="duration" type="int">
             <column name="duration" not-null="true" />
@@ -38,12 +38,21 @@
         <property name="status" type="string">
             <column name="status" length="45" not-null="true" />
         </property>
-        <property name="eta" type="date">
-            <column name="eta" length="10" />
+        <property name="eta" type="timestamp">
+            <column name="eta" length="19" />
         </property>
-        <property name="arrivedAt" type="date">
-            <column name="arrived_at" length="10" />
+        <property name="arrivedAt" type="timestamp">
+            <column name="arrived_at" length="19" />
         </property>
+        <property name="booked" type="int">
+            <column name="booked" not-null="true" />
+        </property>
+        <set name="bookings" table="booking" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="flight" length="10" not-null="true" />
+            </key>
+            <one-to-many class="org.nmiljkovic.models.Booking" />
+        </set>
         <set name="flightRadarses" table="flight_radars" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="flight" length="10" not-null="true" />
