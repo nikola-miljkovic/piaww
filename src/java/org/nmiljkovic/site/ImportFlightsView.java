@@ -6,6 +6,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
+import com.opencsv.CSVReader;
+import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.util.Date;
@@ -92,8 +94,8 @@ public class ImportFlightsView {
         List<Radar> radars = radarRepo.getRadarList(flightData.radars);
         
         byte isCharter = (byte)(flightData.charter ? 1 : 0);
-        Flight newFlight = new Flight(flightData.flightNo, aircraft, 
-                arrivalAirport, departureAirport, arrivalGate, departureGate, 
+        Flight newFlight = new Flight(aircraft, 
+                arrivalAirport, departureAirport, arrivalGate, departureGate, flightData.flightNo,
                 isCharter, flightData.startTime, new Date(flightData.startTime.getTime() + (flightData.duration * 60000)), 
                 flightData.duration, "P", 0);
         
@@ -108,7 +110,18 @@ public class ImportFlightsView {
             try {
                 String fileContent = new String(file.getContents(), "UTF-8");
                 if (file.getFileName().endsWith("csv")) {
-                    // Parse CSV
+                    CSVReader reader = new CSVReader(new StringReader(fileContent));
+                    boolean first = true;
+                    for (String[] nextLine : reader) {
+                        if (first) {
+                            // skip header
+                            first = false;
+                            continue;
+                        }
+                        
+                        flightData = FlightDataDto.fromCSV(nextLine);
+                        storeFlightData(flightData);
+                     }
                 } else if (file.getFileName().endsWith("json")) {
                     Gson gson = new Gson();
                     JsonParser parser = new JsonParser();

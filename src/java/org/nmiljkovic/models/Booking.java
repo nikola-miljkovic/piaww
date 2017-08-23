@@ -1,5 +1,5 @@
 package org.nmiljkovic.models;
-// Generated Aug 20, 2017 9:06:03 PM by Hibernate Tools 4.3.1
+// Generated Aug 23, 2017 10:48:40 PM by Hibernate Tools 4.3.1
 
 
 
@@ -9,7 +9,7 @@ package org.nmiljkovic.models;
 public class Booking  implements java.io.Serializable {
 
 
-     private int id;
+     private Integer id;
      private Flight flight;
      private int count;
      private long passport;
@@ -21,8 +21,7 @@ public class Booking  implements java.io.Serializable {
     public Booking() {
     }
 
-    public Booking(int id, Flight flight, int count, long passport, String firstName, String lastName, String creditCard, String flightCode) {
-       this.id = id;
+    public Booking(Flight flight, int count, long passport, String firstName, String lastName, String creditCard, String flightCode) {
        this.flight = flight;
        this.count = count;
        this.passport = passport;
@@ -32,11 +31,11 @@ public class Booking  implements java.io.Serializable {
        this.flightCode = flightCode;
     }
    
-    public int getId() {
+    public Integer getId() {
         return this.id;
     }
     
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
     public Flight getFlight() {

@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Aug 20, 2017 9:06:03 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated Aug 23, 2017 10:48:41 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="org.nmiljkovic.models.Flight" table="flight" catalog="pia_prj" optimistic-lock="version">
-        <id name="id" type="string">
-            <column name="id" length="10" />
-            <generator class="assigned" />
+        <id name="id" type="java.lang.Integer">
+            <column name="id" />
+            <generator class="identity" />
         </id>
         <many-to-one name="aircraft" class="org.nmiljkovic.models.Aircraft" fetch="select">
             <column name="aircraft" not-null="true" />
@@ -23,6 +23,9 @@
         <many-to-one name="gateByStartGate" class="org.nmiljkovic.models.Gate" fetch="select">
             <column name="start_gate" not-null="true" />
         </many-to-one>
+        <property name="flightId" type="string">
+            <column name="flight_id" length="10" not-null="true" />
+        </property>
         <property name="charter" type="byte">
             <column name="charter" not-null="true" />
         </property>
@@ -47,17 +50,26 @@
         <property name="booked" type="int">
             <column name="booked" not-null="true" />
         </property>
+        <property name="flightcol" type="string">
+            <column name="flightcol" length="45" />
+        </property>
         <set name="bookings" table="booking" inverse="true" lazy="true" fetch="select">
             <key>
-                <column name="flight" length="10" not-null="true" />
+                <column name="flight" not-null="true" />
             </key>
             <one-to-many class="org.nmiljkovic.models.Booking" />
         </set>
         <set name="flightRadarses" table="flight_radars" inverse="true" lazy="true" fetch="select">
             <key>
-                <column name="flight" length="10" not-null="true" />
+                <column name="flight" not-null="true" />
             </key>
             <one-to-many class="org.nmiljkovic.models.FlightRadars" />
+        </set>
+        <set name="crews" table="crew" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="flight" not-null="true" />
+            </key>
+            <one-to-many class="org.nmiljkovic.models.Crew" />
         </set>
     </class>
 </hibernate-mapping>

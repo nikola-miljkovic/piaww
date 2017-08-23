@@ -181,33 +181,34 @@ public class FlightDataDto {
         return data;
     }
     
-    public static FlightDataDto fromCsv(JsonObject obj) throws ParseException {
+    
+    public static FlightDataDto fromCSV(String[] nextLine) throws ParseException {
         FlightDataDto data = new FlightDataDto();
-        data.setFlightNo(obj.get("FlightNo").getAsString());
-        data.setAirways(obj.get("Air").getAsString());
+        data.setFlightNo(nextLine[0]);
+        data.setAirways(nextLine[1]);
         
-        data.setDepartureAirport(obj.get("DepAP").getAsString());
-        data.setDepartureTerminal(Integer.parseInt(obj.get("DTerm").getAsString().substring(13)));
-        data.setDepartureGate(obj.get("DGate").getAsString());
-        data.setArrivalAirport(obj.get("ArrAP").getAsString());
-        data.setArrivalTerminal(Integer.parseInt(obj.get("ATerm").getAsString().substring(13)));
-        data.setArrivalGate(obj.get("AGate").getAsString());
+        data.setDepartureAirport(nextLine[2]);
+        data.setDepartureTerminal(Integer.parseInt(nextLine[3].substring(13)));
+        data.setDepartureGate(nextLine[4]);
+        data.setArrivalAirport(nextLine[5]);
+        data.setArrivalTerminal(Integer.parseInt(nextLine[6].substring(13)));
+        data.setArrivalGate(nextLine[7]);
         
         SimpleDateFormat parser = new SimpleDateFormat("dd/MM/yyyyKK:mm:ss a");
-        String inputDate = obj.get("StartDate").getAsString() + obj.get("StartTime").getAsString();
+        String inputDate = nextLine[8] + nextLine[9];
         data.setStartTime(parser.parse(inputDate));
         
         SimpleDateFormat parserForDuration = new SimpleDateFormat("KK:mm");
-        Date durationTime = parserForDuration.parse(obj.get("Duration").getAsString());
+        Date durationTime = parserForDuration.parse(nextLine[10]);
         data.setDuration(durationTime.getHours() * 60 + durationTime.getMinutes());
         
-        String routeArray = obj.get("RouteRadar").getAsString();
+        String routeArray = nextLine[11];
         data.setRadars(routeArray.substring(1, routeArray.length() - 1).split(","));
         
-        data.setCharter(obj.get("Charter").getAsBoolean());
-        data.setAircraftId(obj.get("IDPlane").getAsInt());
+        data.setCharter(Boolean.parseBoolean(nextLine[12]));
+        data.setAircraftId(Integer.parseInt(nextLine[13]));
         
-        String crewArray = obj.get("Crew").getAsString();
+        String crewArray = nextLine[14];
         data.setCrew(crewArray.substring(1, crewArray.length() - 1).split(","));
         
         return data;

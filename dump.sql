@@ -134,6 +134,63 @@ INSERT INTO `airways` VALUES (1,'Air Serbia','Serbia','http://www.airserbia.com/
 UNLOCK TABLES;
 
 --
+-- Table structure for table `booking`
+--
+
+DROP TABLE IF EXISTS `booking`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `booking` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `flight` int(11) NOT NULL,
+  `count` int(11) NOT NULL,
+  `passport` bigint(20) NOT NULL,
+  `firstName` varchar(45) NOT NULL,
+  `lastName` varchar(45) NOT NULL,
+  `creditCard` varchar(45) NOT NULL,
+  `flightCode` varchar(8) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `booking_flight_idx` (`flight`),
+  CONSTRAINT `booking_flight` FOREIGN KEY (`flight`) REFERENCES `flight` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `booking`
+--
+
+LOCK TABLES `booking` WRITE;
+/*!40000 ALTER TABLE `booking` DISABLE KEYS */;
+/*!40000 ALTER TABLE `booking` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `employed_at`
+--
+
+DROP TABLE IF EXISTS `employed_at`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `employed_at` (
+  `user` int(11) DEFAULT NULL,
+  `airlines` int(11) DEFAULT NULL,
+  KEY `employed_at_airlines_idx` (`airlines`),
+  KEY `employed_at_user_idx` (`user`),
+  CONSTRAINT `employed_at_airlines` FOREIGN KEY (`airlines`) REFERENCES `airways` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `employed_at_user` FOREIGN KEY (`user`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `employed_at`
+--
+
+LOCK TABLES `employed_at` WRITE;
+/*!40000 ALTER TABLE `employed_at` DISABLE KEYS */;
+/*!40000 ALTER TABLE `employed_at` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `flight`
 --
 
@@ -141,7 +198,8 @@ DROP TABLE IF EXISTS `flight`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `flight` (
-  `id` varchar(10) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `flight_id` varchar(10) NOT NULL,
   `airport` varchar(3) NOT NULL,
   `dest_airport` varchar(3) NOT NULL,
   `aircraft` int(11) NOT NULL,
@@ -150,10 +208,12 @@ CREATE TABLE `flight` (
   `arrival` datetime NOT NULL,
   `duration` int(11) NOT NULL,
   `status` varchar(45) NOT NULL,
-  `eta` date DEFAULT NULL,
-  `arrived_at` date DEFAULT NULL,
+  `eta` datetime DEFAULT NULL,
+  `arrived_at` datetime DEFAULT NULL,
   `start_gate` int(11) NOT NULL,
   `end_gate` int(11) NOT NULL,
+  `booked` int(11) NOT NULL DEFAULT '0',
+  `flightcol` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `airport_idx` (`airport`),
   KEY `dest_airport_idx` (`dest_airport`),
@@ -185,15 +245,15 @@ DROP TABLE IF EXISTS `flight_radars`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `flight_radars` (
-  `flight` varchar(10) NOT NULL,
+  `flight` int(11) NOT NULL,
   `radar` varchar(10) NOT NULL,
   `position` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`position`,`flight`,`radar`),
-  KEY `radar_flight_idx` (`flight`),
   KEY `radar_radar_idx` (`radar`),
+  KEY `radar_flight_idx` (`flight`),
   CONSTRAINT `radar_flight` FOREIGN KEY (`flight`) REFERENCES `flight` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `radar_radar` FOREIGN KEY (`radar`) REFERENCES `radar` (`name`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -312,7 +372,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,0,'asdadasd','asdadasdasd','2017-08-16','sadadadasas','dadsadasdas','mAirwaysId123T!',1),(2,0,'asdasdasdasdas','dasdasdasddasa','2017-08-25','dadadasdzxzdxzd','dxzxzdzxdzdz','mAirwaysId123T!',1),(3,0,'ssdadsasd','asdadjsiaodjaojd','2017-08-31','milj1337@gmail.com','uasdad','ASDASDDSXsss!!123',1),(4,0,'resadasd','asdadasdas','2017-08-15','dasdasdasda','asdasdadas','ASDASDDSXsss!!123',1),(5,0,'asdsada','sdadas','2017-08-22','dasdasas','dasdasd','ASDASDDSXsss!!123',1),(6,0,'sadasda','dadasd','2017-08-09','asasdasasa','dssasdasasd','ASDASDDSXsss!!123',1),(7,0,'sdadasdas','asdasdasas','2017-08-08','asasdadss','dasdasdadaa','azzxxcv123',1),(8,0,'dadsasda','ddd','2017-08-16','asdda','dasddsds','mAirwaysId123T!',1),(11,0,'Roottest','Roottest','2017-08-08','Roottest','Roottest','Roottest123!',1),(17,0,'test123','test123','2017-08-09','test123','test123','test123!!',1),(20,0,'test1234','test1234','2017-08-14','test1234','test1234','test1234!',1),(21,0,'Nikola','Miljkovic','2017-08-24','milja13375@gmail.com','djodzo','djodzo1234',1);
+INSERT INTO `user` VALUES (1,0,'asdadasd','asdadasdasd','2017-08-16','sadadadasas','dadsadasdas','mAirwaysId123T!',1),(2,0,'asdasdasdasdas','dasdasdasddasa','2017-08-25','dadadasdzxzdxzd','dxzxzdzxdzdz','mAirwaysId123T!',1),(3,0,'ssdadsasd','asdadjsiaodjaojd','2017-08-31','milj1337@gmail.com','uasdad','ASDASDDSXsss!!123',1),(4,0,'resadasd','asdadasdas','2017-08-15','dasdasdasda','asdasdadas','ASDASDDSXsss!!123',1),(5,0,'asdsada','sdadas','2017-08-22','dasdasas','dasdasd','ASDASDDSXsss!!123',1),(6,0,'sadasda','dadasd','2017-08-09','asasdasasa','dssasdasasd','ASDASDDSXsss!!123',1),(7,0,'sdadasdas','asdasdasas','2017-08-08','asasdadss','dasdasdadaa','azzxxcv123',1),(8,0,'dadsasda','ddd','2017-08-16','asdda','dasddsds','mAirwaysId123T!',1),(11,0,'Roottest','Roottest','2017-08-08','Roottest','Roottest','Roottest123!',1),(17,0,'test123','test123','2017-08-09','test123','test123','test123!!',1),(20,0,'test1234','test1234','2017-08-14','test1234','test1234','test1234!',1),(21,1,'Nikola','Miljkovic','2017-08-24','milja13375@gmail.com','djodzo','djodzo1234',1);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -325,4 +385,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-08-20 16:59:50
+-- Dump completed on 2017-08-23 22:45:36

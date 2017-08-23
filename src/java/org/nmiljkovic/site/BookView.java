@@ -14,7 +14,7 @@ public class BookView {
     private long passport;
     private String creditCardNumber;
     private int count;
-    private String flightId;
+    private int flightId;
     private String bookCode;
     
     public BookView() {
@@ -70,11 +70,11 @@ public class BookView {
         this.count = count;
     }
 
-    public String getFlightId() {
+    public int getFlightId() {
         return flightId;
     }
 
-    public void setFlightId(String flightId) {
+    public void setFlightId(int flightId) {
         this.flightId = flightId;
     }
 

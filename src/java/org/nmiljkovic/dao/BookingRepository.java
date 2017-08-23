@@ -23,7 +23,7 @@ public class BookingRepository {
         this.session = HibernateUtil.getSessionFactory().openSession();
     }
 
-    public String bookFlight(String flightId, String firstName, String lastName, long passport, String creditCardNumber, int count) {
+    public String bookFlight(int flightId, String firstName, String lastName, long passport, String creditCardNumber, int count) {
         String flightCode = null;
         try {
             Flight flight = new Flight();
@@ -36,7 +36,7 @@ public class BookingRepository {
             for (int i = 0; i < 8; i++) {
                 strBuilder.append(charPool.charAt(rnd.nextInt(length)));
             }
-            Booking booking = new Booking(count, flight, count, passport, firstName, lastName, creditCardNumber, strBuilder.toString());
+            Booking booking = new Booking(flight, count, passport, firstName, lastName, creditCardNumber, strBuilder.toString());
             session.beginTransaction();
             session.save(booking);
             flightCode = booking.getFlightCode();

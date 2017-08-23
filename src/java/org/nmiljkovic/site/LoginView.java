@@ -17,6 +17,11 @@ import org.nmiljkovic.models.User;
 @RequestScoped
 public class LoginView implements Serializable {
     
+    public static final int UserTypeAirlines = 1;
+    public static final int UserTypeSteward = 2;
+    public static final int UserTypePilot = 3;
+    public static final int UserTypeAdmin = 4;
+    
     private static final long serialVersionUID = 1L;
     
     private String mUsername;

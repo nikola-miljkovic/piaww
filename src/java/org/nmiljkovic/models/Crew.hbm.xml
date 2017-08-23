@@ -3,23 +3,20 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated Aug 23, 2017 10:48:41 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="org.nmiljkovic.models.FlightRadars" table="flight_radars" catalog="pia_prj" optimistic-lock="version">
-        <composite-id name="id" class="org.nmiljkovic.models.FlightRadarsId">
-            <key-property name="position" type="int">
-                <column name="position" />
+    <class name="org.nmiljkovic.models.Crew" table="crew" catalog="pia_prj" optimistic-lock="version">
+        <composite-id name="id" class="org.nmiljkovic.models.CrewId">
+            <key-property name="user" type="int">
+                <column name="user" />
             </key-property>
             <key-property name="flight" type="int">
                 <column name="flight" />
-            </key-property>
-            <key-property name="radar" type="string">
-                <column name="radar" length="10" />
             </key-property>
         </composite-id>
         <many-to-one name="flight" class="org.nmiljkovic.models.Flight" update="false" insert="false" fetch="select">
             <column name="flight" not-null="true" />
         </many-to-one>
-        <many-to-one name="radar" class="org.nmiljkovic.models.Radar" update="false" insert="false" fetch="select">
-            <column name="radar" length="10" not-null="true" />
+        <many-to-one name="user" class="org.nmiljkovic.models.User" update="false" insert="false" fetch="select">
+            <column name="user" not-null="true" />
         </many-to-one>
     </class>
 </hibernate-mapping>

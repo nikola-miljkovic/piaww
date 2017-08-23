@@ -1,5 +1,5 @@
 package org.nmiljkovic.models;
-// Generated Aug 20, 2017 9:06:03 PM by Hibernate Tools 4.3.1
+// Generated Aug 23, 2017 10:48:40 PM by Hibernate Tools 4.3.1
 
 
 import java.util.HashSet;
@@ -19,6 +19,7 @@ public class Airways  implements java.io.Serializable {
      private String address;
      private Set users = new HashSet(0);
      private Set aircrafts = new HashSet(0);
+     private Set employedAts = new HashSet(0);
 
     public Airways() {
     }
@@ -32,7 +33,7 @@ public class Airways  implements java.io.Serializable {
         this.email = email;
         this.address = address;
     }
-    public Airways(int id, String name, String country, String website, String email, String address, Set users, Set aircrafts) {
+    public Airways(int id, String name, String country, String website, String email, String address, Set users, Set aircrafts, Set employedAts) {
        this.id = id;
        this.name = name;
        this.country = country;
@@ -41,6 +42,7 @@ public class Airways  implements java.io.Serializable {
        this.address = address;
        this.users = users;
        this.aircrafts = aircrafts;
+       this.employedAts = employedAts;
     }
    
     public int getId() {
@@ -98,6 +100,13 @@ public class Airways  implements java.io.Serializable {
     
     public void setAircrafts(Set aircrafts) {
         this.aircrafts = aircrafts;
+    }
+    public Set getEmployedAts() {
+        return this.employedAts;
+    }
+    
+    public void setEmployedAts(Set employedAts) {
+        this.employedAts = employedAts;
     }
 
 

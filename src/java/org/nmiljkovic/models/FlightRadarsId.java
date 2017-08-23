@@ -1,5 +1,5 @@
 package org.nmiljkovic.models;
-// Generated Aug 20, 2017 9:06:03 PM by Hibernate Tools 4.3.1
+// Generated Aug 23, 2017 10:48:40 PM by Hibernate Tools 4.3.1
 
 
 
@@ -10,13 +10,13 @@ public class FlightRadarsId  implements java.io.Serializable {
 
 
      private int position;
-     private String flight;
+     private int flight;
      private String radar;
 
     public FlightRadarsId() {
     }
 
-    public FlightRadarsId(int position, String flight, String radar) {
+    public FlightRadarsId(int position, int flight, String radar) {
        this.position = position;
        this.flight = flight;
        this.radar = radar;
@@ -29,11 +29,11 @@ public class FlightRadarsId  implements java.io.Serializable {
     public void setPosition(int position) {
         this.position = position;
     }
-    public String getFlight() {
+    public int getFlight() {
         return this.flight;
     }
     
-    public void setFlight(String flight) {
+    public void setFlight(int flight) {
         this.flight = flight;
     }
     public String getRadar() {
@@ -52,7 +52,7 @@ public class FlightRadarsId  implements java.io.Serializable {
 		 FlightRadarsId castOther = ( FlightRadarsId ) other; 
          
 		 return (this.getPosition()==castOther.getPosition())
- && ( (this.getFlight()==castOther.getFlight()) || ( this.getFlight()!=null && castOther.getFlight()!=null && this.getFlight().equals(castOther.getFlight()) ) )
+ && (this.getFlight()==castOther.getFlight())
  && ( (this.getRadar()==castOther.getRadar()) || ( this.getRadar()!=null && castOther.getRadar()!=null && this.getRadar().equals(castOther.getRadar()) ) );
    }
    
@@ -60,7 +60,7 @@ public class FlightRadarsId  implements java.io.Serializable {
          int result = 17;
          
          result = 37 * result + this.getPosition();
-         result = 37 * result + ( getFlight() == null ? 0 : this.getFlight().hashCode() );
+         result = 37 * result + this.getFlight();
          result = 37 * result + ( getRadar() == null ? 0 : this.getRadar().hashCode() );
          return result;
    }   
