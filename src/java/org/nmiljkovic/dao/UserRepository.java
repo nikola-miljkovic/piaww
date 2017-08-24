@@ -5,6 +5,7 @@
  */
 package org.nmiljkovic.dao;
 
+import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.nmiljkovic.models.User;
@@ -18,10 +19,11 @@ public class UserRepository {
     Session session = null;
 
     public UserRepository() {
-        this.session = HibernateUtil.getSessionFactory().openSession();
+        //this.session = HibernateUtil.getSessionFactory().openSession();
     }
     
     public User createUser(User user) {
+        this.session = HibernateUtil.getSessionFactory().openSession();
         try {
             session.beginTransaction();
             session.save(user);
@@ -30,11 +32,13 @@ public class UserRepository {
         } finally {
             session.getTransaction().commit();
         }
+        this.session.close();
         
         return user;
     }
 
     public User checkUser(String mUsername, String mPassword) {
+        this.session = HibernateUtil.getSessionFactory().openSession();
         User user = null;
         try {
             session.beginTransaction();
@@ -45,7 +49,38 @@ public class UserRepository {
         } finally {
             session.getTransaction().commit();
         }
+        this.session.close();
         
         return user;
+    }
+
+    public List<User> getNonFlaggedUsers() {
+        this.session = HibernateUtil.getSessionFactory().openSession();
+        List<User> users = null;
+        try {
+            session.beginTransaction();
+            Query q = session.createQuery("from User as user where user.flag = 0");
+            users = (List<User>)q.list();
+        } catch (Exception exc) {
+            exc.printStackTrace();
+        } finally {
+            session.getTransaction().commit();
+        }
+        this.session.close();
+        
+        return users;
+    }
+
+    public void updateUser(User user) {
+        this.session = HibernateUtil.getSessionFactory().openSession();
+        try {
+            session.beginTransaction();
+            session.saveOrUpdate(user);
+        } catch (Exception exc) {
+            exc.printStackTrace();
+        } finally {
+            session.getTransaction().commit();
+        }
+        this.session.close();
     }
 }

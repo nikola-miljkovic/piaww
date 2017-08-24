@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/WEB-INF/templates/masterTemplate.xhtml"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets" 
+        xmlns:p="http://primefaces.org/ui">
+    <ui:define name="title">Sign Up</ui:define>
+
+    <ui:define name="content">
+        <div>Admin PANEL</div>
+        <h:form id="userList">
+            <p:dataTable var="user" value="#{adminView.users}" >
+                <p:column headerText="Id">
+                    <h:outputText value="#{user.id}" />
+                </p:column>
+
+                <p:column headerText="Username">
+                    <h:outputText value="#{user.username}" />
+                </p:column>
+
+                <p:column headerText="Email">
+                    <h:outputText value="#{user.email}" />
+                </p:column>
+
+                <p:column headerText="UserType">
+                    <p:selectOneMenu id="country" style="width:150px" value="#{user.flag}">
+                        <f:selectItem itemLabel="UserTypeAirlines" itemValue="1" />
+                        <f:selectItem itemLabel="UserTypeSteward" itemValue="2" />
+                        <f:selectItem itemLabel="UserTypePilot" itemValue="3" />
+                        <f:selectItem itemLabel="UserTypeAdmin" itemValue="4" />
+                    </p:selectOneMenu>
+                </p:column>
+
+                <p:column headerText="*">
+                    <p:commandButton action="${adminView.confirmUser(user)}" value="Confirm" icon="ui-icon-info" update="userList">
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+        <div>New Airport</div>
+        <h:form>
+            <h:panelGrid columns="2" cellpadding="10">
+                <p:outputLabel value="Id:" for="inputAirportId" />
+                <p:inputText id="inputAirportId" value="#{airportView.airport.id}" />
+
+                <p:outputLabel value="Name:" for="inputAirportName" />
+                <p:inputText id="inputAirportName" value="#{airportView.airport.name}" />
+
+                <p:outputLabel value="Runway count:" for="inputAirportRunwayCount" />
+                <p:inputText id="inputAirportRunwayCount" value="#{airportView.airport.runwayCount}" />
+
+                <p:outputLabel value="City:" for="inputAirportCity" />
+                <p:inputText id="inputAirportCity" value="#{airportView.airport.city}" />
+
+                <p:outputLabel value="Country:" for="inputAirportCountry" />
+                <p:inputText id="inputAirportCountry" value="#{airportView.airport.country}" />
+
+                <p:dataList id="gates" value="#{airportView.gates}" var="gate" type="ordered">
+                    <p:outputLabel value="Terminal:" for="inputAirportTerminal" />
+                    <p:inputText id="inputAirportTerminal" value="#{gate.terminal}" />
+
+                    <p:outputLabel value="Gate:" for="inputAirportGate" />
+                    <p:inputText id="inputAirportGate" value="#{gate.gate}" />
+                </p:dataList>
+
+                <p:commandButton value="Add Gate" actionListener="#{airportView.addGate}" update="gates" />
+                <p:commandButton value="Create" actionListener="#{airportView.createAirport}" type="submit"/>
+            </h:panelGrid>
+        </h:form>
+        <div>New Airlines</div>
+        <h:form>
+            <h:panelGrid columns="2" cellpadding="10">
+                <p:outputLabel value="Name:" for="inputAirwaysName" />
+                <p:inputText id="inputAirwaysName" value="#{airlinesView.airways.name}" />
+
+                <p:outputLabel value="Country:" for="inputAirwaysCountry" />
+                <p:inputText id="inputAirwaysCountry" value="#{airlinesView.airways.country}" />
+
+                <p:outputLabel value="Website:" for="inputAirwaysWebsite" />
+                <p:inputText id="inputAirwaysWebsite" value="#{airlinesView.airways.website}" />
+
+                <p:outputLabel value="Email:" for="inputAirwaysEmail" />
+                <p:inputText id="inputAirwaysEmail" value="#{airlinesView.airways.email}" />
+
+                <p:outputLabel value="Address:" for="inputAirwaysAddress" />
+                <p:inputText id="inputAirwaysAddress" value="#{airlinesView.airways.address}" />
+
+                <p:commandButton value="Create" actionListener="#{airlinesView.updateAirways}" type="submit"/>
+            </h:panelGrid>
+        </h:form>
+    </ui:define>
+</ui:composition>

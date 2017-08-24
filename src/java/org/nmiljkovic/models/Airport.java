@@ -10,15 +10,14 @@ import java.util.Set;
  */
 public class Airport  implements java.io.Serializable {
 
-
-     private String id;
-     private String name;
-     private int runwayCount;
-     private String city;
-     private String country;
-     private Set flightsForAirport = new HashSet(0);
-     private Set flightsForDestAirport = new HashSet(0);
-     private Set gates = new HashSet(0);
+    private String id;
+    private String name;
+    private int runwayCount;
+    private String city;
+    private String country;
+    private Set flightsForAirport = new HashSet(0);
+    private Set flightsForDestAirport = new HashSet(0);
+    private Set gates = new HashSet(0);
 
     public Airport() {
     }

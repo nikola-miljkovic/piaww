@@ -50,9 +50,6 @@
         <property name="booked" type="int">
             <column name="booked" not-null="true" />
         </property>
-        <property name="flightcol" type="string">
-            <column name="flightcol" length="45" />
-        </property>
         <set name="bookings" table="booking" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="flight" not-null="true" />

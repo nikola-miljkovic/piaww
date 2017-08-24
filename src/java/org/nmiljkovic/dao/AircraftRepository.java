@@ -35,4 +35,17 @@ public class AircraftRepository {
         }
         return aircraft;
     }
+
+    public List<Aircraft> getAircrafts() {
+        List<Aircraft> aircrafts = null;
+        try {
+            org.hibernate.Transaction tran = session.beginTransaction();
+            Query q = session.createQuery("from Aircraft");
+            aircrafts = (List<Aircraft>)q.list();
+            tran.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return aircrafts;
+    }
 }

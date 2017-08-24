@@ -39,4 +39,15 @@ public class GateRepository {
         }
         return gateObj;
     }
+
+    public void createGate(Gate gate) {
+        try {
+            session.beginTransaction();
+            session.save(gate);
+        } catch (Exception exc) {
+            
+        } finally {
+            session.getTransaction().commit();
+        }
+    }
 }

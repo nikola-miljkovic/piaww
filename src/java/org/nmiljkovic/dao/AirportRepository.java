@@ -25,15 +25,28 @@ public class AirportRepository {
     }
     
     public Airport getAirportById(String id) {
-        Airport aircraft = null;
+        Airport airport = null;
         try {
             org.hibernate.Transaction tran = session.beginTransaction();
             Query q = session.createQuery("from Airport as airport where airport.id = '" + id + "'");
-            aircraft = (Airport)q.list().get(0);
+            airport = (Airport)q.list().get(0);
             tran.commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return aircraft;
+        return airport;
+    }
+
+    public Airport createAirport(Airport airport) {
+        try {
+            org.hibernate.Transaction tran = session.beginTransaction();
+            session.save(airport);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            session.getTransaction().commit();
+        }
+        
+        return airport;
     }
 }

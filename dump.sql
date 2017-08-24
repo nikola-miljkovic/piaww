@@ -101,7 +101,7 @@ CREATE TABLE `airport` (
 
 LOCK TABLES `airport` WRITE;
 /*!40000 ALTER TABLE `airport` DISABLE KEYS */;
-INSERT INTO `airport` VALUES ('BEG','Aerodrom Nikola Tesla Beograd',20,'Belgrade','Serbia'),('TIV','Aerodrom Tivat',20,'Tivat','Serbia');
+INSERT INTO `airport` VALUES ('BEG','Aerodrom Nikola Tesla Beograd',20,'Belgrade','Serbia'),('BUD','Budapest Airport',5,'Budapest','Hungary'),('JFK','JFK - New York',10,'New York','United States of America'),('NYC','New York City Airport',20,'New York','United States'),('TIV','Aerodrom Tivat',20,'Tivat','Serbia');
 /*!40000 ALTER TABLE `airport` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -152,7 +152,7 @@ CREATE TABLE `booking` (
   PRIMARY KEY (`id`),
   KEY `booking_flight_idx` (`flight`),
   CONSTRAINT `booking_flight` FOREIGN KEY (`flight`) REFERENCES `flight` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -161,7 +161,34 @@ CREATE TABLE `booking` (
 
 LOCK TABLES `booking` WRITE;
 /*!40000 ALTER TABLE `booking` DISABLE KEYS */;
+INSERT INTO `booking` VALUES (1,2,1,123123123,'NIkola','Miljkovic','1231-3122-3123-1231','DEEXWVIC');
 /*!40000 ALTER TABLE `booking` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `crew`
+--
+
+DROP TABLE IF EXISTS `crew`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `crew` (
+  `user` int(11) NOT NULL,
+  `flight` int(11) NOT NULL,
+  KEY `crew_flight_idx` (`flight`),
+  KEY `crew_user_idx` (`user`),
+  CONSTRAINT `crew_flight` FOREIGN KEY (`flight`) REFERENCES `flight` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `crew_user` FOREIGN KEY (`user`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `crew`
+--
+
+LOCK TABLES `crew` WRITE;
+/*!40000 ALTER TABLE `crew` DISABLE KEYS */;
+/*!40000 ALTER TABLE `crew` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -213,19 +240,17 @@ CREATE TABLE `flight` (
   `start_gate` int(11) NOT NULL,
   `end_gate` int(11) NOT NULL,
   `booked` int(11) NOT NULL DEFAULT '0',
-  `flightcol` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `airport_idx` (`airport`),
   KEY `dest_airport_idx` (`dest_airport`),
   KEY `flight_aircraft_idx` (`aircraft`),
-  KEY `flight_start_gate_idx` (`start_gate`),
-  KEY `flight_end_gate_idx` (`end_gate`),
+  KEY `flight_gate_s_idx` (`start_gate`),
   CONSTRAINT `flight_aircraft` FOREIGN KEY (`aircraft`) REFERENCES `aircraft` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `flight_dest_airport` FOREIGN KEY (`dest_airport`) REFERENCES `airport` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `flight_end_gate` FOREIGN KEY (`end_gate`) REFERENCES `gate` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `flight_source_airport` FOREIGN KEY (`airport`) REFERENCES `airport` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `flight_start_gate` FOREIGN KEY (`start_gate`) REFERENCES `gate` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  CONSTRAINT `flight_gate_e` FOREIGN KEY (`start_gate`) REFERENCES `gate` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `flight_gate_s` FOREIGN KEY (`start_gate`) REFERENCES `gate` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `flight_source_airport` FOREIGN KEY (`airport`) REFERENCES `airport` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -234,6 +259,7 @@ CREATE TABLE `flight` (
 
 LOCK TABLES `flight` WRITE;
 /*!40000 ALTER TABLE `flight` DISABLE KEYS */;
+INSERT INTO `flight` VALUES (1,'JU186','TIV','BEG',3,0,'2017-08-01 07:00:00','2017-08-01 07:50:00',50,'P',NULL,NULL,10,13,0),(2,'JU187','BEG','TIV',3,0,'2017-08-01 09:00:00','2017-08-01 09:50:00',50,'P',NULL,NULL,13,12,1),(3,'JU182','TIV','BEG',2,0,'2017-08-01 13:40:00','2017-08-01 14:25:00',45,'P',NULL,NULL,6,13,0),(4,'JU183','BEG','TIV',2,0,'2017-08-01 15:00:00','2017-08-01 15:45:00',45,'P',NULL,NULL,13,9,0),(5,'JU184','TIV','BEG',3,0,'2017-08-01 17:05:00','2017-08-01 17:55:00',50,'P',NULL,NULL,12,14,0),(6,'JU185','BEG','TIV',3,0,'2017-08-01 18:45:00','2017-08-01 19:35:00',50,'P',NULL,NULL,14,1,0);
 /*!40000 ALTER TABLE `flight` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -253,7 +279,7 @@ CREATE TABLE `flight_radars` (
   KEY `radar_flight_idx` (`flight`),
   CONSTRAINT `radar_flight` FOREIGN KEY (`flight`) REFERENCES `flight` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `radar_radar` FOREIGN KEY (`radar`) REFERENCES `radar` (`name`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -262,6 +288,7 @@ CREATE TABLE `flight_radars` (
 
 LOCK TABLES `flight_radars` WRITE;
 /*!40000 ALTER TABLE `flight_radars` DISABLE KEYS */;
+INSERT INTO `flight_radars` VALUES (1,'TGD',1),(1,'TIV',2),(1,'ZLA',3),(1,'BEG',15),(2,'TGD',1),(2,'TIV',2),(2,'ZLA',3),(2,'BEG',16),(3,'TGD',1),(3,'TIV',2),(3,'ZLA',3),(3,'BEG',17),(4,'TGD',1),(4,'TIV',2),(4,'ZLA',3),(4,'BEG',18),(5,'TGD',1),(5,'TIV',2),(5,'ZLA',3),(5,'BEG',19),(6,'TGD',1),(6,'TIV',2),(6,'ZLA',3),(6,'BEG',20);
 /*!40000 ALTER TABLE `flight_radars` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -273,14 +300,14 @@ DROP TABLE IF EXISTS `gate`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `gate` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `terminal` int(11) NOT NULL,
   `gate` varchar(10) NOT NULL,
   `airport` varchar(3) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `gate_airport_idx` (`airport`),
   CONSTRAINT `gate_airport` FOREIGN KEY (`airport`) REFERENCES `airport` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -289,7 +316,7 @@ CREATE TABLE `gate` (
 
 LOCK TABLES `gate` WRITE;
 /*!40000 ALTER TABLE `gate` DISABLE KEYS */;
-INSERT INTO `gate` VALUES (1,1,'A1','BEG'),(2,1,'A2','BEG'),(3,1,'A3','BEG'),(4,1,'A4','BEG'),(5,1,'A5','BEG'),(6,1,'A6','BEG'),(7,2,'A7','BEG'),(8,2,'A8','BEG'),(9,2,'A9','BEG'),(10,2,'A10','BEG'),(11,2,'A11','BEG'),(12,2,'A12','BEG'),(13,1,'A1','TIV'),(14,1,'A2','TIV'),(15,1,'A3','TIV'),(16,1,'A4','TIV'),(17,1,'A5','TIV'),(18,1,'A6','TIV'),(19,2,'A7','TIV'),(20,2,'A8','TIV'),(21,2,'A9','TIV'),(22,2,'A10','TIV'),(23,2,'A11','TIV'),(24,2,'A12','TIV');
+INSERT INTO `gate` VALUES (1,1,'A1','JFK'),(2,1,'A1','BEG'),(3,1,'A2','BEG'),(4,1,'A3','BEG'),(5,1,'A4','BEG'),(6,1,'A5','BEG'),(7,1,'A6','BEG'),(8,2,'A7','BEG'),(9,2,'A8','BEG'),(10,2,'A9','BEG'),(11,2,'A10','BEG'),(12,2,'A11','BEG'),(13,2,'A12','BEG'),(14,1,'A1','TIV'),(15,1,'A2','TIV'),(16,1,'A3','TIV'),(17,1,'A4','TIV'),(18,1,'A5','TIV'),(19,1,'A6','TIV'),(20,2,'A7','TIV'),(21,2,'A8','TIV'),(22,2,'A9','TIV'),(23,2,'A10','TIV'),(24,2,'A11','TIV'),(25,2,'A12','TIV'),(26,1,'A1','BUD'),(27,2,'B1','BUD'),(28,3,'C1','BUD');
 /*!40000 ALTER TABLE `gate` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -372,7 +399,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,0,'asdadasd','asdadasdasd','2017-08-16','sadadadasas','dadsadasdas','mAirwaysId123T!',1),(2,0,'asdasdasdasdas','dasdasdasddasa','2017-08-25','dadadasdzxzdxzd','dxzxzdzxdzdz','mAirwaysId123T!',1),(3,0,'ssdadsasd','asdadjsiaodjaojd','2017-08-31','milj1337@gmail.com','uasdad','ASDASDDSXsss!!123',1),(4,0,'resadasd','asdadasdas','2017-08-15','dasdasdasda','asdasdadas','ASDASDDSXsss!!123',1),(5,0,'asdsada','sdadas','2017-08-22','dasdasas','dasdasd','ASDASDDSXsss!!123',1),(6,0,'sadasda','dadasd','2017-08-09','asasdasasa','dssasdasasd','ASDASDDSXsss!!123',1),(7,0,'sdadasdas','asdasdasas','2017-08-08','asasdadss','dasdasdadaa','azzxxcv123',1),(8,0,'dadsasda','ddd','2017-08-16','asdda','dasddsds','mAirwaysId123T!',1),(11,0,'Roottest','Roottest','2017-08-08','Roottest','Roottest','Roottest123!',1),(17,0,'test123','test123','2017-08-09','test123','test123','test123!!',1),(20,0,'test1234','test1234','2017-08-14','test1234','test1234','test1234!',1),(21,1,'Nikola','Miljkovic','2017-08-24','milja13375@gmail.com','djodzo','djodzo1234',1);
+INSERT INTO `user` VALUES (1,0,'asdadasd','asdadasdasd','2017-08-16','sadadadasas','dadsadasdas','mAirwaysId123T!',1),(2,2,'asdasdasdasdas','dasdasdasddasa','2017-08-25','dadadasdzxzdxzd','dxzxzdzxdzdz','mAirwaysId123T!',1),(3,2,'ssdadsasd','asdadjsiaodjaojd','2017-08-31','milj1337@gmail.com','uasdad','ASDASDDSXsss!!123',1),(4,3,'resadasd','asdadasdas','2017-08-15','dasdasdasda','asdasdadas','ASDASDDSXsss!!123',1),(5,2,'asdsada','sdadas','2017-08-22','dasdasas','dasdasd','ASDASDDSXsss!!123',1),(6,3,'sadasda','dadasd','2017-08-09','asasdasasa','dssasdasasd','ASDASDDSXsss!!123',1),(7,0,'sdadasdas','asdasdasas','2017-08-08','asasdadss','dasdasdadaa','azzxxcv123',1),(8,3,'dadsasda','ddd','2017-08-16','asdda','dasddsds','mAirwaysId123T!',1),(11,2,'Roottest','Roottest','2017-08-08','Roottest','Roottest','Roottest123!',1),(17,3,'test123','test123','2017-08-09','test123','test123','test123!!',1),(20,2,'test1234','test1234','2017-08-14','test1234','test1234','test1234!',1),(21,4,'Nikola','Miljkovic','2017-08-24','milja13375@gmail.com','djodzo','djodzo1234',1);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -385,4 +412,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-08-23 22:45:36
+-- Dump completed on 2017-08-24 22:29:48

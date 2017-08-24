@@ -17,6 +17,7 @@ import org.nmiljkovic.models.User;
 @RequestScoped
 public class LoginView implements Serializable {
     
+    public static final int UserTypeNotConfirmed = 0; 
     public static final int UserTypeAirlines = 1;
     public static final int UserTypeSteward = 2;
     public static final int UserTypePilot = 3;
@@ -37,10 +38,16 @@ public class LoginView implements Serializable {
             mUsername = null;
             mPassword = null;
             return null;
-        } else {
-            context.getExternalContext().getSessionMap().put("user", user);
-            return "index?faces-redirect=true";
-        }
+        } 
+        
+        context.getExternalContext().getSessionMap().put("user", user);
+        switch (user.getFlag()) {
+            case UserTypeAdmin:
+                return "admin?faces-redirect=true";
+            default: {
+                return "index?faces-redirect=true";
+            }
+        } 
     }
     
     public String getUsername() {

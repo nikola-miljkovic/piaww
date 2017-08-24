@@ -27,7 +27,6 @@ public class Flight  implements java.io.Serializable {
      private Date eta;
      private Date arrivedAt;
      private int booked;
-     private String flightcol;
      private Set bookings = new HashSet(0);
      private Set flightRadarses = new HashSet(0);
      private Set crews = new HashSet(0);
@@ -65,7 +64,6 @@ public class Flight  implements java.io.Serializable {
        this.eta = eta;
        this.arrivedAt = arrivedAt;
        this.booked = booked;
-       this.flightcol = flightcol;
        this.bookings = bookings;
        this.flightRadarses = flightRadarses;
        this.crews = crews;
@@ -176,13 +174,7 @@ public class Flight  implements java.io.Serializable {
     public void setBooked(int booked) {
         this.booked = booked;
     }
-    public String getFlightcol() {
-        return this.flightcol;
-    }
     
-    public void setFlightcol(String flightcol) {
-        this.flightcol = flightcol;
-    }
     public Set getBookings() {
         return this.bookings;
     }
