@@ -1,5 +1,5 @@
 package org.nmiljkovic.models;
-// Generated Aug 23, 2017 10:48:40 PM by Hibernate Tools 4.3.1
+// Generated Aug 25, 2017 1:49:43 PM by Hibernate Tools 4.3.1
 
 
 import java.util.HashSet;
@@ -11,7 +11,7 @@ import java.util.Set;
 public class Gate  implements java.io.Serializable {
 
 
-     private int id;
+     private Integer id;
      private Airport airport;
      private int terminal;
      private String gate;
@@ -22,14 +22,12 @@ public class Gate  implements java.io.Serializable {
     }
 
 	
-    public Gate(int id, Airport airport, int terminal, String gate) {
-        this.id = id;
+    public Gate(Airport airport, int terminal, String gate) {
         this.airport = airport;
         this.terminal = terminal;
         this.gate = gate;
     }
-    public Gate(int id, Airport airport, int terminal, String gate, Set flightsForEndGate, Set flightsForStartGate) {
-       this.id = id;
+    public Gate(Airport airport, int terminal, String gate, Set flightsForEndGate, Set flightsForStartGate) {
        this.airport = airport;
        this.terminal = terminal;
        this.gate = gate;
@@ -37,11 +35,11 @@ public class Gate  implements java.io.Serializable {
        this.flightsForStartGate = flightsForStartGate;
     }
    
-    public int getId() {
+    public Integer getId() {
         return this.id;
     }
     
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
     public Airport getAirport() {

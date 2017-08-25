@@ -49,4 +49,17 @@ public class AirportRepository {
         
         return airport;
     }
+
+    public List<Airport> getAirports() {
+        List<Airport> airports = null;
+        try {
+            org.hibernate.Transaction tran = session.beginTransaction();
+            Query q = session.createQuery("from Airport");
+            airports = (List<Airport>)q.list();
+            tran.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return airports;
+    }
 }

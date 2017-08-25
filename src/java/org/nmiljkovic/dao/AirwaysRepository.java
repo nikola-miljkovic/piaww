@@ -34,4 +34,15 @@ public class AirwaysRepository {
         }
         return airwaysList;
     }
+
+    public void updateOrSave(Airways airways) {
+        try {
+            org.hibernate.Transaction tran = session.beginTransaction();
+            session.saveOrUpdate(airways);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            session.getTransaction().commit();
+        }
+    }
 }

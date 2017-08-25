@@ -1,5 +1,5 @@
 package org.nmiljkovic.models;
-// Generated Aug 23, 2017 10:48:40 PM by Hibernate Tools 4.3.1
+// Generated Aug 25, 2017 1:49:43 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -49,7 +49,7 @@ public class Flight  implements java.io.Serializable {
         this.status = status;
         this.booked = booked;
     }
-    public Flight(Aircraft aircraft, Airport airportByAirport, Airport airportByDestAirport, Gate gateByEndGate, Gate gateByStartGate, String flightId, byte charter, Date departure, Date arrival, int duration, String status, Date eta, Date arrivedAt, int booked, String flightcol, Set bookings, Set flightRadarses, Set crews) {
+    public Flight(Aircraft aircraft, Airport airportByAirport, Airport airportByDestAirport, Gate gateByEndGate, Gate gateByStartGate, String flightId, byte charter, Date departure, Date arrival, int duration, String status, Date eta, Date arrivedAt, int booked, Set bookings, Set flightRadarses, Set crews) {
        this.aircraft = aircraft;
        this.airportByAirport = airportByAirport;
        this.airportByDestAirport = airportByDestAirport;
@@ -174,7 +174,6 @@ public class Flight  implements java.io.Serializable {
     public void setBooked(int booked) {
         this.booked = booked;
     }
-    
     public Set getBookings() {
         return this.bookings;
     }
@@ -198,7 +197,7 @@ public class Flight  implements java.io.Serializable {
     }
 
     public Date getDurationAsDate() {
-        Date date = new Date(this.duration * 60000);
+       	Date date = new Date(this.duration * 60000);
         return date;
     }
 }

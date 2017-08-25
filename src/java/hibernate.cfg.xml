@@ -48,18 +48,18 @@ Contributor(s):
     <property name="hibernate.connection.password">root</property>
     <property name="hibernate.show_sql">true</property>
     <property name="hibernate.current_session_context_class">thread</property>
-    <mapping resource="org/nmiljkovic/models/Booking.hbm.xml"/>
-    <mapping resource="org/nmiljkovic/models/Airport.hbm.xml"/>
-    <mapping resource="org/nmiljkovic/models/Crew.hbm.xml"/>
-    <mapping resource="org/nmiljkovic/models/Radar.hbm.xml"/>
-    <mapping resource="org/nmiljkovic/models/User.hbm.xml"/>
-    <mapping resource="org/nmiljkovic/models/AircraftType.hbm.xml"/>
-    <mapping resource="org/nmiljkovic/models/Gate.hbm.xml"/>
-    <mapping resource="org/nmiljkovic/models/Manufacturer.hbm.xml"/>
-    <mapping resource="org/nmiljkovic/models/Airways.hbm.xml"/>
-    <mapping resource="org/nmiljkovic/models/FlightRadars.hbm.xml"/>
-    <mapping resource="org/nmiljkovic/models/Flight.hbm.xml"/>
-    <mapping resource="org/nmiljkovic/models/EmployedAt.hbm.xml"/>
     <mapping resource="org/nmiljkovic/models/Aircraft.hbm.xml"/>
+    <mapping resource="org/nmiljkovic/models/FlightRadars.hbm.xml"/>
+    <mapping resource="org/nmiljkovic/models/Crew.hbm.xml"/>
+    <mapping resource="org/nmiljkovic/models/Booking.hbm.xml"/>
+    <mapping resource="org/nmiljkovic/models/User.hbm.xml"/>
+    <mapping resource="org/nmiljkovic/models/EmployedAt.hbm.xml"/>
+    <mapping resource="org/nmiljkovic/models/Airways.hbm.xml"/>
+    <mapping resource="org/nmiljkovic/models/Radar.hbm.xml"/>
+    <mapping resource="org/nmiljkovic/models/Flight.hbm.xml"/>
+    <mapping resource="org/nmiljkovic/models/AircraftType.hbm.xml"/>
+    <mapping resource="org/nmiljkovic/models/Airport.hbm.xml"/>
+    <mapping resource="org/nmiljkovic/models/Manufacturer.hbm.xml"/>
+    <mapping resource="org/nmiljkovic/models/Gate.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

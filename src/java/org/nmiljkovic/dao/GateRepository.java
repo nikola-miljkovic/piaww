@@ -50,4 +50,18 @@ public class GateRepository {
             session.getTransaction().commit();
         }
     }
+
+    public List<Gate> getGatesForAirport(String airport) {
+        List<Gate> gates = null;
+        try {
+            org.hibernate.Transaction tran = session.beginTransaction();
+            Query q = session.createQuery("from Gate as gate where gate.airport = '" 
+                    + airport + "'");
+            gates = (List<Gate>)q.list();
+            tran.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return gates;
+    }
 }

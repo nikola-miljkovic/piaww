@@ -69,25 +69,152 @@
                 <p:commandButton value="Create" actionListener="#{airportView.createAirport}" type="submit"/>
             </h:panelGrid>
         </h:form>
-        <div>New Airlines</div>
-        <h:form>
+        <div>Airlines</div>
+        <div class="ui-g">
+            <div class="ui-g-4">
+                <h3>Airlines form</h3>
+                <h:form id="airlineForm">
+                    <h:panelGrid columns="2" cellpadding="10">
+                        <p:outputLabel value="Name:" for="inputAirwaysName" />
+                        <p:inputText id="inputAirwaysName" value="#{airlinesView.airways.name}" />
+
+                        <p:outputLabel value="Country:" for="inputAirwaysCountry" />
+                        <p:inputText id="inputAirwaysCountry" value="#{airlinesView.airways.country}" />
+
+                        <p:outputLabel value="Website:" for="inputAirwaysWebsite" />
+                        <p:inputText id="inputAirwaysWebsite" value="#{airlinesView.airways.website}" />
+
+                        <p:outputLabel value="Email:" for="inputAirwaysEmail" />
+                        <p:inputText id="inputAirwaysEmail" value="#{airlinesView.airways.email}" />
+
+                        <p:outputLabel value="Address:" for="inputAirwaysAddress" />
+                        <p:inputText id="inputAirwaysAddress" value="#{airlinesView.airways.address}" />
+
+                        <p:commandButton value="Create/Update" actionListener="#{airlinesView.updateAirways}" type="submit"/>
+                    </h:panelGrid>
+                </h:form>
+            </div>
+            <div class="ui-g-8">
+                <h3>All Airlines</h3>
+                <h:form id="airlineList">
+                    <p:dataTable var="airline" value="#{adminView.airways}" >
+                        <p:column headerText="Id">
+                            <h:outputText value="#{airline.id}" />
+                        </p:column>
+
+                        <p:column headerText="Name">
+                            <h:outputText value="#{airline.name}" />
+                        </p:column>
+
+                        <p:column headerText="Country">
+                            <h:outputText value="#{airline.country}" />
+                        </p:column>
+                        
+                        <p:column headerText="Website">
+                            <h:outputText value="#{airline.website}" />
+                        </p:column>
+                        
+                        <p:column headerText="Email">
+                            <h:outputText value="#{airline.email}" />
+                        </p:column>
+                        
+                        <p:column headerText="Address">
+                            <h:outputText value="#{airline.address}" />
+                        </p:column>
+
+                        <p:column headerText="*">
+                            <p:commandButton action="${airlinesView.editAirline(airline)}" value="Edit" icon="ui-icon-info" update="airlineForm">
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+            </div>
+        </div>
+        <div>Flights</div>
+        <h:form id="flightForm">
             <h:panelGrid columns="2" cellpadding="10">
-                <p:outputLabel value="Name:" for="inputAirwaysName" />
-                <p:inputText id="inputAirwaysName" value="#{airlinesView.airways.name}" />
+                <p:outputLabel value="Flight Id:" for="inputFlightId" />
+                <p:inputText id="inputFlightId" value="#{adminView.flight.flightId}" />
+                
+                <p:outputLabel value="Departure Airport:" for="inputFlightAirportDep" />
+                <p:selectOneMenu id="inputFlightAirportDep" value="#{adminView.airportDepId}">
+                    <p:ajax event="change" update="flightForm" />
+                    <f:selectItem itemLabel="Select One" itemValue="" />
+                    <f:selectItems value="#{adminView.airports}" var="airport" itemValue="#{airport.id}" itemLabel="#{airport.id} - #{airport.name}"/>
+                </p:selectOneMenu>
+                
+                <p:outputLabel value="Arrival Airport:" for="inputFlightAirportArr" />
+                <p:selectOneMenu id="inputFlightAirportArr" value="#{adminView.airportArrId}">
+                    <p:ajax event="change" update="flightForm" />
+                    <f:selectItem itemLabel="Select One" itemValue="" />
+                    <f:selectItems value="#{adminView.airports}" var="airport" itemValue="#{airport.id}" itemLabel="#{airport.id} - #{airport.name}"/>
+                </p:selectOneMenu>
+                
+                <p:outputLabel value="Airways:" for="inputAirwaysId" />
+                <p:selectOneMenu id="inputAirwaysId" value="#{adminView.flightAirlineSelected}">
+                    <p:ajax event="change" update="flightForm" />
+                    <f:selectItem itemLabel="Select One" itemValue="" />
+                    <f:selectItems value="#{adminView.airways}" var="airways" itemValue="#{airways.id}" itemLabel="#{airways.name}"/>
+                </p:selectOneMenu>
+                
+                <p:outputLabel value="Aircraft:" for="inputFlightAircraft" />
+                <p:selectOneMenu id="inputFlightAircraft" value="#{adminView.airlineAircraft}">
+                    <f:selectItem itemLabel="Select One" itemValue="" />
+                    <f:selectItems value="#{adminView.flightAircrafts}" var="aircraft" itemValue="#{aircraft.id}" itemLabel="#{aircraft.aircraftType.name}"/>
+                </p:selectOneMenu>
+                
+                <p:outputLabel value="Charter:" for="inputFlightCharter" />
+                <p:inputSwitch id="inputFlightCharter" value="#{adminView.flight.charter}" />
 
-                <p:outputLabel value="Country:" for="inputAirwaysCountry" />
-                <p:inputText id="inputAirwaysCountry" value="#{airlinesView.airways.country}" />
+                <p:outputLabel value="Departure:" for="inputFlightDeparture" />
+                <p:calendar id="inputFlightDeparture" value="#{adminView.flight.departure}" />
 
-                <p:outputLabel value="Website:" for="inputAirwaysWebsite" />
-                <p:inputText id="inputAirwaysWebsite" value="#{airlinesView.airways.website}" />
-
-                <p:outputLabel value="Email:" for="inputAirwaysEmail" />
-                <p:inputText id="inputAirwaysEmail" value="#{airlinesView.airways.email}" />
-
-                <p:outputLabel value="Address:" for="inputAirwaysAddress" />
-                <p:inputText id="inputAirwaysAddress" value="#{airlinesView.airways.address}" />
-
-                <p:commandButton value="Create" actionListener="#{airlinesView.updateAirways}" type="submit"/>
+                <p:outputLabel value="Duration:" for="inputFlightDuration" />
+                <p:inputText id="inputFlightDuration" value="#{adminView.flight.duration}" />
+                
+                <p:outputLabel value="Start gate:" for="inputFlightStartGate" />
+                <p:selectOneMenu id="inputFlightStartGate" value="#{adminView.gateByStartGate}">
+                    <f:selectItem itemLabel="Select One" itemValue="" />
+                    <f:selectItems value="#{adminView.flightStartGates}" var="gate" itemValue="#{gate.id}" itemLabel="Terminal - #{gate.terminal}, Gate #{gate.gate}"/>
+                </p:selectOneMenu>
+                
+                <p:outputLabel value="End gate:" for="inputFlightEndGate" />
+                <p:selectOneMenu id="inputFlightEndGate" value="#{adminView.gateByEndGate}">
+                    <f:selectItem itemLabel="Select One" itemValue="" />
+                    <f:selectItems value="#{adminView.flightEndGates}" var="gate" itemValue="#{gate.id}" itemLabel="Terminal - #{gate.terminal}, Gate #{gate.gate}"/>
+                </p:selectOneMenu>
+                
+                <p:outputLabel value="Pilot 1:" for="inputFlightPilot1" />
+                <p:selectOneMenu id="inputFlightPilot1" value="#{adminView.flightPilot1}">
+                    <f:selectItem itemLabel="Select One" itemValue="" />
+                    <f:selectItems value="#{adminView.flightPilots}" var="user" itemValue="#{user.id}" itemLabel="#{user.username}"/>
+                </p:selectOneMenu>
+                
+                <p:outputLabel value="Pilot 2:" for="inputFlightPilot2" />
+                <p:selectOneMenu id="inputFlightPilot2" value="#{adminView.flightPilot2}">
+                    <f:selectItem itemLabel="Select One" itemValue="" />
+                    <f:selectItems value="#{adminView.flightPilots}" var="user" itemValue="#{user.id}" itemLabel="#{user.username}"/>
+                </p:selectOneMenu>
+                
+                <p:outputLabel value="Steward 1:" for="inputFlightSt1" />
+                <p:selectOneMenu id="inputFlightSt1" value="#{adminView.flightSteward1}">
+                    <f:selectItem itemLabel="Select One" itemValue="" />
+                    <f:selectItems value="#{adminView.flightStewards}" var="user" itemValue="#{user.id}" itemLabel="#{user.username}"/>
+                </p:selectOneMenu>
+                
+                <p:outputLabel value="Steward 2:" for="inputFlightSt2" />
+                <p:selectOneMenu id="inputFlightSt2" value="#{adminView.flightSteward2}">
+                    <f:selectItem itemLabel="Select One" itemValue="" />
+                    <f:selectItems value="#{adminView.flightStewards}" var="user" itemValue="#{user.id}" itemLabel="#{user.username}"/>
+                </p:selectOneMenu>
+                
+                <p:outputLabel value="Steward 3:" for="inputFlightSt3" />
+                <p:selectOneMenu id="inputFlightSt3" value="#{adminView.flightSteward3}">
+                    <f:selectItem itemLabel="Select One" itemValue="" />
+                    <f:selectItems value="#{adminView.flightStewards}" var="user" itemValue="#{user.id}" itemLabel="#{user.username}"/>
+                </p:selectOneMenu>
+                
+                <p:commandButton value="Create" action="#{adminView.createFlight}" />
             </h:panelGrid>
         </h:form>
     </ui:define>

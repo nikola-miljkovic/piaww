@@ -83,4 +83,23 @@ public class UserRepository {
         }
         this.session.close();
     }
+
+    public List<User> getEmployeeWithFlag(int flightAirlineSelected, int flag) {
+        this.session = HibernateUtil.getSessionFactory().openSession();
+        List<User> users = null;
+        try {
+            session.beginTransaction();
+            Query q = session.createQuery("from User as user where user.flag = " 
+                    + flag + " and user.airways = " + flightAirlineSelected
+            );
+            users = (List<User>)q.list();
+        } catch (Exception exc) {
+            exc.printStackTrace();
+        } finally {
+            session.getTransaction().commit();
+        }
+        this.session.close();
+        
+        return users;
+    }
 }

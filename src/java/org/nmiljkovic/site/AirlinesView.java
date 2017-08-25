@@ -15,6 +15,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import org.nmiljkovic.dao.UserRepository;
 import org.nmiljkovic.dao.AircraftRepository;
+import org.nmiljkovic.dao.AirwaysRepository;
 import org.nmiljkovic.models.Aircraft;
 import org.nmiljkovic.models.Airport;
 import org.nmiljkovic.models.Airways;
@@ -40,6 +41,12 @@ public class AirlinesView implements Serializable {
     }
     
     public String updateAirways() {
+        AirwaysRepository airwaysRepo = new AirwaysRepository();
+        airwaysRepo.updateOrSave(airways);
         return null;
+    }
+    
+    public void editAirline(Airways airline) {
+        setAirways(airline);
     }
 }

@@ -1,8 +1,8 @@
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
--- Host: localhost    Database: pia_prj
+-- Host: 127.0.0.1    Database: pia_prj
 -- ------------------------------------------------------
--- Server version	5.7.17-log
+-- Server version	5.7.19-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -23,18 +23,18 @@ DROP TABLE IF EXISTS `aircraft`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `aircraft` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `manufacturer` int(11) NOT NULL,
   `type` int(11) NOT NULL,
   `owner` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `owner_aircraft_idx` (`owner`),
   KEY `manufacturer_aircraft_idx` (`manufacturer`),
   KEY `type_aircraft_idx` (`type`),
+  KEY `owner_aircraft_idx` (`owner`),
   CONSTRAINT `manufacturer_aircraft` FOREIGN KEY (`manufacturer`) REFERENCES `manufacturer` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `owner_aircraft` FOREIGN KEY (`owner`) REFERENCES `airways` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `type_aircraft` FOREIGN KEY (`type`) REFERENCES `aircraft_type` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -113,14 +113,14 @@ DROP TABLE IF EXISTS `airways`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `airways` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(32) NOT NULL,
   `country` varchar(64) NOT NULL,
   `website` varchar(32) NOT NULL,
   `email` varchar(32) NOT NULL,
   `address` varchar(64) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -129,7 +129,7 @@ CREATE TABLE `airways` (
 
 LOCK TABLES `airways` WRITE;
 /*!40000 ALTER TABLE `airways` DISABLE KEYS */;
-INSERT INTO `airways` VALUES (1,'Air Serbia','Serbia','http://www.airserbia.com/','airserbia@airserbia.com','AirSrbija 2011');
+INSERT INTO `airways` VALUES (1,'Air Serbia','Serbia','http://www.airserbia.com/','airserbia@airserbia.com','AirSrbija 2011'),(2,'Lufthansa','Germany','http://www.lufthansa.com','info@lufthansa.com','Germany 2017'),(3,'','','','','');
 /*!40000 ALTER TABLE `airways` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -201,9 +201,7 @@ DROP TABLE IF EXISTS `employed_at`;
 CREATE TABLE `employed_at` (
   `user` int(11) DEFAULT NULL,
   `airlines` int(11) DEFAULT NULL,
-  KEY `employed_at_airlines_idx` (`airlines`),
   KEY `employed_at_user_idx` (`user`),
-  CONSTRAINT `employed_at_airlines` FOREIGN KEY (`airlines`) REFERENCES `airways` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `employed_at_user` FOREIGN KEY (`user`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -243,11 +241,12 @@ CREATE TABLE `flight` (
   PRIMARY KEY (`id`),
   KEY `airport_idx` (`airport`),
   KEY `dest_airport_idx` (`dest_airport`),
-  KEY `flight_aircraft_idx` (`aircraft`),
   KEY `flight_gate_s_idx` (`start_gate`),
+  KEY `flight_aircraft_idx` (`aircraft`),
+  KEY `flight_gate_e_idx` (`end_gate`),
   CONSTRAINT `flight_aircraft` FOREIGN KEY (`aircraft`) REFERENCES `aircraft` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `flight_dest_airport` FOREIGN KEY (`dest_airport`) REFERENCES `airport` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `flight_gate_e` FOREIGN KEY (`start_gate`) REFERENCES `gate` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `flight_gate_e` FOREIGN KEY (`end_gate`) REFERENCES `gate` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `flight_gate_s` FOREIGN KEY (`start_gate`) REFERENCES `gate` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `flight_source_airport` FOREIGN KEY (`airport`) REFERENCES `airport` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
@@ -384,12 +383,12 @@ CREATE TABLE `user` (
   `email` varchar(64) NOT NULL,
   `username` varchar(64) NOT NULL,
   `password` varchar(256) NOT NULL,
-  `employeer` int(11) NOT NULL,
+  `employer` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email_UNIQUE` (`email`),
   UNIQUE KEY `username_UNIQUE` (`username`),
-  KEY `user_emplyeer_idx` (`employeer`),
-  CONSTRAINT `user_emplyeer` FOREIGN KEY (`employeer`) REFERENCES `airways` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `user_employer_idx` (`employer`),
+  CONSTRAINT `user_employer` FOREIGN KEY (`employer`) REFERENCES `airways` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -399,7 +398,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,0,'asdadasd','asdadasdasd','2017-08-16','sadadadasas','dadsadasdas','mAirwaysId123T!',1),(2,2,'asdasdasdasdas','dasdasdasddasa','2017-08-25','dadadasdzxzdxzd','dxzxzdzxdzdz','mAirwaysId123T!',1),(3,2,'ssdadsasd','asdadjsiaodjaojd','2017-08-31','milj1337@gmail.com','uasdad','ASDASDDSXsss!!123',1),(4,3,'resadasd','asdadasdas','2017-08-15','dasdasdasda','asdasdadas','ASDASDDSXsss!!123',1),(5,2,'asdsada','sdadas','2017-08-22','dasdasas','dasdasd','ASDASDDSXsss!!123',1),(6,3,'sadasda','dadasd','2017-08-09','asasdasasa','dssasdasasd','ASDASDDSXsss!!123',1),(7,0,'sdadasdas','asdasdasas','2017-08-08','asasdadss','dasdasdadaa','azzxxcv123',1),(8,3,'dadsasda','ddd','2017-08-16','asdda','dasddsds','mAirwaysId123T!',1),(11,2,'Roottest','Roottest','2017-08-08','Roottest','Roottest','Roottest123!',1),(17,3,'test123','test123','2017-08-09','test123','test123','test123!!',1),(20,2,'test1234','test1234','2017-08-14','test1234','test1234','test1234!',1),(21,4,'Nikola','Miljkovic','2017-08-24','milja13375@gmail.com','djodzo','djodzo1234',1);
+INSERT INTO `user` VALUES (1,0,'asdadasd','asdadasdasd','2017-08-16','sadadadasas','dadsadasdas','mAirwaysId123T!',1),(2,2,'asdasdasdasdas','dasdasdasddasa','2017-08-25','dadadasdzxzdxzd','dxzxzdzxdzdz','mAirwaysId123T!',1),(3,2,'ssdadsasd','asdadjsiaodjaojd','2017-08-31','milj1337@gmail.com','uasdad','ASDASDDSXsss!!123',1),(4,3,'resadasd','asdadasdas','2017-08-15','dasdasdasda','asdasdadas','ASDASDDSXsss!!123',1),(5,2,'asdsada','sdadas','2017-08-22','dasdasas','dasdasd','ASDASDDSXsss!!123',1),(6,3,'sadasda','dadasd','2017-08-09','asasdasasa','dssasdasasd','ASDASDDSXsss!!123',1),(7,0,'sdadasdas','asdasdasas','2017-08-08','asasdadss','dasdasdadaa','azzxxcv123',1),(8,3,'dadsasda','ddd','2017-08-16','asdda','dasddsds','mAirwaysId123T!',1),(11,2,'Roottest','Roottest','2017-08-08','Roottest','Roottest','Roottest123!',1),(17,3,'test123','test123','2017-08-09','test123','test123','test123!!',2),(20,2,'test1234','test1234','2017-08-14','test1234','test1234','test1234!',1),(21,4,'Nikola','Miljkovic','2017-08-24','milja13375@gmail.com','djodzo','d',1);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -412,4 +411,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-08-24 22:29:48
+-- Dump completed on 2017-08-25 15:42:44
