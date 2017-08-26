@@ -13,4 +13,8 @@ public class GateNotFoundException extends Exception {
     public GateNotFoundException(String gate, String airportId) {
         super("Gate " + gate + " not found on airport " + airportId + ".");
     }
+
+    public GateNotFoundException(int gateId) {
+        super("Did not find gate with id: " + gateId); //To change body of generated methods, choose Tools | Templates.
+    }
 }

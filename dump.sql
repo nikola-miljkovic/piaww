@@ -1,8 +1,8 @@
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: pia_prj
+-- Host: localhost    Database: pia_prj
 -- ------------------------------------------------------
--- Server version	5.7.19-log
+-- Server version	5.7.17-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -120,7 +120,7 @@ CREATE TABLE `airways` (
   `email` varchar(32) NOT NULL,
   `address` varchar(64) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -129,7 +129,7 @@ CREATE TABLE `airways` (
 
 LOCK TABLES `airways` WRITE;
 /*!40000 ALTER TABLE `airways` DISABLE KEYS */;
-INSERT INTO `airways` VALUES (1,'Air Serbia','Serbia','http://www.airserbia.com/','airserbia@airserbia.com','AirSrbija 2011'),(2,'Lufthansa','Germany','http://www.lufthansa.com','info@lufthansa.com','Germany 2017'),(3,'','','','','');
+INSERT INTO `airways` VALUES (1,'Air Serbia','Serbia','http://www.airserbia.com/','airserbia@airserbia.com','AirSrbija 2011'),(2,'Lufthansa','Germany','http://www.lufthansa.com','info@lufthansa.com','Germany 2017');
 /*!40000 ALTER TABLE `airways` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -152,7 +152,7 @@ CREATE TABLE `booking` (
   PRIMARY KEY (`id`),
   KEY `booking_flight_idx` (`flight`),
   CONSTRAINT `booking_flight` FOREIGN KEY (`flight`) REFERENCES `flight` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -161,7 +161,6 @@ CREATE TABLE `booking` (
 
 LOCK TABLES `booking` WRITE;
 /*!40000 ALTER TABLE `booking` DISABLE KEYS */;
-INSERT INTO `booking` VALUES (1,2,1,123123123,'NIkola','Miljkovic','1231-3122-3123-1231','DEEXWVIC');
 /*!40000 ALTER TABLE `booking` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -188,6 +187,7 @@ CREATE TABLE `crew` (
 
 LOCK TABLES `crew` WRITE;
 /*!40000 ALTER TABLE `crew` DISABLE KEYS */;
+INSERT INTO `crew` VALUES (23,27),(27,27),(28,27),(32,27),(35,27),(23,28),(27,28),(28,28),(32,28),(35,28),(23,29),(27,29),(28,29),(32,29),(35,29),(23,30),(27,30),(28,30),(32,30),(35,30),(23,31),(27,31),(28,31),(32,31),(35,31),(23,32),(24,32),(30,32),(31,32),(32,32),(23,33),(24,33),(30,33),(31,33),(32,33),(26,34),(27,34),(29,34),(34,34),(36,34),(37,34),(26,35),(27,35),(29,35),(34,35),(36,35),(37,35),(23,36),(24,36),(30,36),(31,36),(32,36),(23,37),(24,37),(30,37),(31,37),(32,37),(23,38),(27,38),(29,38),(32,38),(34,38);
 /*!40000 ALTER TABLE `crew` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -249,7 +249,7 @@ CREATE TABLE `flight` (
   CONSTRAINT `flight_gate_e` FOREIGN KEY (`end_gate`) REFERENCES `gate` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `flight_gate_s` FOREIGN KEY (`start_gate`) REFERENCES `gate` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `flight_source_airport` FOREIGN KEY (`airport`) REFERENCES `airport` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -258,7 +258,7 @@ CREATE TABLE `flight` (
 
 LOCK TABLES `flight` WRITE;
 /*!40000 ALTER TABLE `flight` DISABLE KEYS */;
-INSERT INTO `flight` VALUES (1,'JU186','TIV','BEG',3,0,'2017-08-01 07:00:00','2017-08-01 07:50:00',50,'P',NULL,NULL,10,13,0),(2,'JU187','BEG','TIV',3,0,'2017-08-01 09:00:00','2017-08-01 09:50:00',50,'P',NULL,NULL,13,12,1),(3,'JU182','TIV','BEG',2,0,'2017-08-01 13:40:00','2017-08-01 14:25:00',45,'P',NULL,NULL,6,13,0),(4,'JU183','BEG','TIV',2,0,'2017-08-01 15:00:00','2017-08-01 15:45:00',45,'P',NULL,NULL,13,9,0),(5,'JU184','TIV','BEG',3,0,'2017-08-01 17:05:00','2017-08-01 17:55:00',50,'P',NULL,NULL,12,14,0),(6,'JU185','BEG','TIV',3,0,'2017-08-01 18:45:00','2017-08-01 19:35:00',50,'P',NULL,NULL,14,1,0);
+INSERT INTO `flight` VALUES (22,'YU113','TIV','BEG',3,0,'2017-09-01 00:00:00','2017-09-01 00:45:00',45,'P',NULL,NULL,3,16,0),(23,'YU113','TIV','BEG',3,0,'2017-09-08 00:00:00','2017-09-08 00:45:00',45,'P',NULL,NULL,3,16,0),(24,'YU113','TIV','BEG',3,0,'2017-09-15 00:00:00','2017-09-15 00:45:00',45,'P',NULL,NULL,3,16,0),(25,'YU113','TIV','BEG',3,0,'2017-09-22 00:00:00','2017-09-22 00:45:00',45,'P',NULL,NULL,3,16,0),(26,'YU113','TIV','BEG',3,0,'2017-09-29 00:00:00','2017-09-29 00:45:00',45,'P',NULL,NULL,3,16,0),(27,'JU180','TIV','BEG',4,0,'2017-09-01 00:00:00','2017-09-01 00:45:00',45,'P',NULL,NULL,2,17,0),(28,'JU180','TIV','BEG',4,0,'2017-09-08 00:00:00','2017-09-08 00:45:00',45,'P',NULL,NULL,2,17,0),(29,'JU180','TIV','BEG',4,0,'2017-09-15 00:00:00','2017-09-15 00:45:00',45,'P',NULL,NULL,2,17,0),(30,'JU180','TIV','BEG',4,0,'2017-09-22 00:00:00','2017-09-22 00:45:00',45,'P',NULL,NULL,2,17,0),(31,'JU180','TIV','BEG',4,0,'2017-09-29 00:00:00','2017-09-29 00:45:00',45,'P',NULL,NULL,2,17,0),(32,'JU186','TIV','BEG',3,0,'2017-08-01 07:00:00','2017-08-01 07:50:00',50,'P',NULL,NULL,11,14,0),(33,'JU187','BEG','TIV',3,0,'2017-08-01 09:00:00','2017-08-01 09:50:00',50,'P',NULL,NULL,14,13,0),(34,'JU182','TIV','BEG',2,0,'2017-08-01 13:40:00','2017-08-01 14:25:00',45,'P',NULL,NULL,7,14,0),(35,'JU183','BEG','TIV',2,0,'2017-08-01 15:00:00','2017-08-01 15:45:00',45,'P',NULL,NULL,14,10,0),(36,'JU184','TIV','BEG',3,0,'2017-08-01 17:05:00','2017-08-01 17:55:00',50,'P',NULL,NULL,13,15,0),(37,'JU185','BEG','TIV',3,0,'2017-08-01 18:45:00','2017-08-01 19:35:00',50,'P',NULL,NULL,15,2,0),(38,'JU334','BUD','BEG',1,0,'2017-08-29 08:15:00','2017-08-29 09:00:00',45,'P',NULL,NULL,4,27,0);
 /*!40000 ALTER TABLE `flight` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -272,13 +272,13 @@ DROP TABLE IF EXISTS `flight_radars`;
 CREATE TABLE `flight_radars` (
   `flight` int(11) NOT NULL,
   `radar` varchar(10) NOT NULL,
-  `position` int(11) NOT NULL AUTO_INCREMENT,
+  `position` int(11) NOT NULL,
   PRIMARY KEY (`position`,`flight`,`radar`),
   KEY `radar_radar_idx` (`radar`),
   KEY `radar_flight_idx` (`flight`),
   CONSTRAINT `radar_flight` FOREIGN KEY (`flight`) REFERENCES `flight` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `radar_radar` FOREIGN KEY (`radar`) REFERENCES `radar` (`name`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -287,7 +287,7 @@ CREATE TABLE `flight_radars` (
 
 LOCK TABLES `flight_radars` WRITE;
 /*!40000 ALTER TABLE `flight_radars` DISABLE KEYS */;
-INSERT INTO `flight_radars` VALUES (1,'TGD',1),(1,'TIV',2),(1,'ZLA',3),(1,'BEG',15),(2,'TGD',1),(2,'TIV',2),(2,'ZLA',3),(2,'BEG',16),(3,'TGD',1),(3,'TIV',2),(3,'ZLA',3),(3,'BEG',17),(4,'TGD',1),(4,'TIV',2),(4,'ZLA',3),(4,'BEG',18),(5,'TGD',1),(5,'TIV',2),(5,'ZLA',3),(5,'BEG',19),(6,'TGD',1),(6,'TIV',2),(6,'ZLA',3),(6,'BEG',20);
+INSERT INTO `flight_radars` VALUES (27,'BEG',0),(27,'TGD',1),(27,'TIV',2),(27,'ZLA',3),(28,'BEG',0),(28,'TGD',1),(28,'TIV',2),(28,'ZLA',3),(29,'BEG',0),(29,'TGD',1),(29,'TIV',2),(29,'ZLA',3),(30,'BEG',0),(30,'TGD',1),(30,'TIV',2),(30,'ZLA',3),(31,'BEG',0),(31,'TGD',1),(31,'TIV',2),(31,'ZLA',3),(32,'BEG',0),(32,'TGD',1),(32,'TIV',2),(32,'ZLA',3),(33,'BEG',0),(33,'TGD',1),(33,'TIV',2),(33,'ZLA',3),(34,'BEG',0),(34,'TGD',1),(34,'TIV',2),(34,'ZLA',3),(35,'BEG',0),(35,'TGD',1),(35,'TIV',2),(35,'ZLA',3),(36,'BEG',0),(36,'TGD',1),(36,'TIV',2),(36,'ZLA',3),(37,'BEG',0),(37,'TGD',1),(37,'TIV',2),(37,'ZLA',3),(38,'BEG',0),(38,'BUD',1),(38,'TRT',2);
 /*!40000 ALTER TABLE `flight_radars` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -363,7 +363,7 @@ CREATE TABLE `radar` (
 
 LOCK TABLES `radar` WRITE;
 /*!40000 ALTER TABLE `radar` DISABLE KEYS */;
-INSERT INTO `radar` VALUES ('BEG'),('TGD'),('TIV'),('ZLA');
+INSERT INTO `radar` VALUES ('BEG'),('BUD'),('TGD'),('TIV'),('TRT'),('ZLA');
 /*!40000 ALTER TABLE `radar` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -389,7 +389,7 @@ CREATE TABLE `user` (
   UNIQUE KEY `username_UNIQUE` (`username`),
   KEY `user_employer_idx` (`employer`),
   CONSTRAINT `user_employer` FOREIGN KEY (`employer`) REFERENCES `airways` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -398,7 +398,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,0,'asdadasd','asdadasdasd','2017-08-16','sadadadasas','dadsadasdas','mAirwaysId123T!',1),(2,2,'asdasdasdasdas','dasdasdasddasa','2017-08-25','dadadasdzxzdxzd','dxzxzdzxdzdz','mAirwaysId123T!',1),(3,2,'ssdadsasd','asdadjsiaodjaojd','2017-08-31','milj1337@gmail.com','uasdad','ASDASDDSXsss!!123',1),(4,3,'resadasd','asdadasdas','2017-08-15','dasdasdasda','asdasdadas','ASDASDDSXsss!!123',1),(5,2,'asdsada','sdadas','2017-08-22','dasdasas','dasdasd','ASDASDDSXsss!!123',1),(6,3,'sadasda','dadasd','2017-08-09','asasdasasa','dssasdasasd','ASDASDDSXsss!!123',1),(7,0,'sdadasdas','asdasdasas','2017-08-08','asasdadss','dasdasdadaa','azzxxcv123',1),(8,3,'dadsasda','ddd','2017-08-16','asdda','dasddsds','mAirwaysId123T!',1),(11,2,'Roottest','Roottest','2017-08-08','Roottest','Roottest','Roottest123!',1),(17,3,'test123','test123','2017-08-09','test123','test123','test123!!',2),(20,2,'test1234','test1234','2017-08-14','test1234','test1234','test1234!',1),(21,4,'Nikola','Miljkovic','2017-08-24','milja13375@gmail.com','djodzo','d',1);
+INSERT INTO `user` VALUES (21,4,'Nikola','Miljkovic','2017-08-24','milja13375@gmail.com','djodzo','djodzo1234',1),(22,3,'djordjevic','djordjevic','1990-08-24','djordjevic@gmail.com','djordjevic','test1234',1),(23,3,'jevdjevic','jevdjevic','1990-08-24','jevdjevicxdd@gmail.com','jevdjevic','test1234',1),(24,3,'teodosic','teodosic','1990-08-24','teodosic@gmail.com','teodosic','test1234',1),(25,3,'marjanovic','marjanovic','1990-08-24','marjanovic@gmail.com','marjanovic','test1234',1),(26,3,'filipovic','filipovic','1990-08-24','filipovic@gmail.com','filipovic','test1234',1),(27,3,'prlainovic','prlainovic','1990-08-24','prlainovic@gmai.com','prlainovic','test1234',1),(28,2,'vesnavulovic','vesnavulovic','1990-08-24','vesnavulovic@gmai.com','vesnavulovic','test1234',1),(29,2,'nadastankovic','nadastankovic','1990-08-24','nadastankovic@gmai.com','nadastankovic','test1234',1),(30,2,'dusicaspasic','dusicaspasic','1990-08-24','dusicaspasic@gmai.com','dusicaspasic','test1234',1),(31,2,'natasamiljkovic','natasamiljkovic','1990-08-24','natasamiljkovic@gmai.com','natasamiljkovic','test1234',1),(32,2,'sanjapetrovic','sanjapetrovic','1990-08-24','sanjapetrovic@gmai.com','sanjapetrovic','test1234',1),(33,2,'majanenadic','majanenadic','1990-08-24','majanenadicc@gmai.com','majanenadic','test1234',1),(34,2,'katarinasreckovic','katarinasreckovic','1990-08-24','katarinasreckovic@gmai.com','katarinasreckovic','test1234',1),(35,2,'jovanagrbic','jovanagrbic','1990-08-24','jovanagrbic@gm.com','jovanagrbic','test1234',1),(36,2,'tijanadimitrijevic','tijanadimitrijevic','1990-08-24','tijanadimitrijevic@gg.com','tijanadimitrijevic','test1234',1),(37,2,'marijapetrovic','marijapetrovic','1990-08-24','marijapetrovic@gmai.com','marijapetrovic','test1234',1);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -411,4 +411,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-08-25 15:42:44
+-- Dump completed on 2017-08-26 18:57:30

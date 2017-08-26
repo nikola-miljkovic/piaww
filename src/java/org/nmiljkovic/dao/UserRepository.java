@@ -5,6 +5,7 @@
  */
 package org.nmiljkovic.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -101,5 +102,26 @@ public class UserRepository {
         this.session.close();
         
         return users;
+    }
+
+    public List<User> getCrew(String[] usernames) {
+        this.session = HibernateUtil.getSessionFactory().openSession();
+        List<User> userList = null;
+        try {
+            org.hibernate.Transaction tran = session.beginTransaction();
+            List<String> userEntries = new ArrayList<>();
+            for (String username : usernames) {
+                userEntries.add("user.username = '" + username + "'");
+            }
+            String queryString = "from User as user where " + String.join(" or ", userEntries);
+            Query q = session.createQuery(queryString);
+            userList = (List<User>)q.list();
+            tran.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        this.session.close();
+        
+        return userList;
     }
 }

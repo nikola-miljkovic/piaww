@@ -40,6 +40,19 @@ public class GateRepository {
         return gateObj;
     }
 
+    public Gate getGateById(int gateId) {
+        Gate gateObj = null;
+        try {
+            org.hibernate.Transaction tran = session.beginTransaction();
+            Query q = session.createQuery("from Gate as gate where gate.id = " + gateId);
+            gateObj = (Gate)q.list().get(0);
+            tran.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return gateObj;
+    }
+
     public void createGate(Gate gate) {
         try {
             session.beginTransaction();
@@ -50,7 +63,7 @@ public class GateRepository {
             session.getTransaction().commit();
         }
     }
-
+    
     public List<Gate> getGatesForAirport(String airport) {
         List<Gate> gates = null;
         try {

@@ -22,6 +22,7 @@ import org.nmiljkovic.dao.AirportRepository;
 import org.nmiljkovic.dao.FlightRepository;
 import org.nmiljkovic.dao.GateRepository;
 import org.nmiljkovic.dao.RadarRepository;
+import org.nmiljkovic.dao.UserRepository;
 import org.nmiljkovic.dto.FlightDataDto;
 import org.nmiljkovic.exceptions.AicraftNotFoundException;
 import org.nmiljkovic.exceptions.AirportNotFoundException;
@@ -32,6 +33,7 @@ import org.nmiljkovic.models.Airport;
 import org.nmiljkovic.models.Flight;
 import org.nmiljkovic.models.Gate;
 import org.nmiljkovic.models.Radar;
+import org.nmiljkovic.models.User;
 import org.primefaces.model.UploadedFile;
 
 @ManagedBean
@@ -43,6 +45,7 @@ public class ImportFlightsView {
     private static final GateRepository gateRepo;
     private static final RadarRepository radarRepo;
     private static final FlightRepository flightRepo;
+    private static final UserRepository userRepo;
     
     static {
         aircraftRepo = new AircraftRepository();
@@ -50,6 +53,7 @@ public class ImportFlightsView {
         gateRepo = new GateRepository();
         radarRepo = new RadarRepository();
         flightRepo = new FlightRepository();
+        userRepo = new UserRepository();
     }
     
     public ImportFlightsView() {
@@ -92,6 +96,7 @@ public class ImportFlightsView {
         }
         
         List<Radar> radars = radarRepo.getRadarList(flightData.radars);
+        List<User> crew = userRepo.getCrew(flightData.crew);
         
         byte isCharter = (byte)(flightData.charter ? 1 : 0);
         Flight newFlight = new Flight(aircraft, 
@@ -99,7 +104,7 @@ public class ImportFlightsView {
                 isCharter, flightData.startTime, new Date(flightData.startTime.getTime() + (flightData.duration * 60000)), 
                 flightData.duration, "P", 0);
         
-        flightRepo.createFlight(newFlight, radars);
+        flightRepo.createFlight(newFlight, radars, crew);
     }
     
     public void upload() {

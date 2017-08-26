@@ -9,21 +9,29 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import org.nmiljkovic.dao.UserRepository;
 import org.nmiljkovic.dao.AircraftRepository;
 import org.nmiljkovic.dao.AirportRepository;
 import org.nmiljkovic.dao.AirwaysRepository;
+import org.nmiljkovic.dao.FlightRepository;
 import org.nmiljkovic.dao.GateRepository;
+import org.nmiljkovic.dao.RadarRepository;
+import org.nmiljkovic.dto.FlightDataDto;
+import org.nmiljkovic.exceptions.AicraftNotFoundException;
+import org.nmiljkovic.exceptions.AirportNotFoundException;
+import org.nmiljkovic.exceptions.GateNotFoundException;
 import org.nmiljkovic.models.Aircraft;
 import org.nmiljkovic.models.Airport;
 import org.nmiljkovic.models.Airways;
 import org.nmiljkovic.models.Flight;
 import org.nmiljkovic.models.Gate;
+import org.nmiljkovic.models.Radar;
 import org.nmiljkovic.models.User;
 
 @ManagedBean
@@ -39,7 +47,7 @@ public class AdminView implements Serializable {
     // Related to flight creation
     private Flight flight;
     private int flightAirlineSelected;
-    private Aircraft airlineAircraft;
+    private int airlineAircraft;
     private List<Aircraft> flightAircrafts;
     
     private String airportDepId;
@@ -48,15 +56,17 @@ public class AdminView implements Serializable {
     private List<Gate> flightEndGates;
     private List<User> flightPilots;
     private List<User> flightStewards;
+    private List<Radar> flightRadars;
     
     private int gateByStartGate;
     private int gateByEndGate;
+    private boolean flightIsCharter;
     
-    private User flightPilot1;
-    private User flightPilot2;
-    private User flightSteward1;
-    private User flightSteward2;
-    private User flightSteward3;
+    private String flightPilot1;
+    private String flightPilot2;
+    private String flightSteward1;
+    private String flightSteward2;
+    private String flightSteward3;
     
     public AdminView() {
     }
@@ -73,8 +83,9 @@ public class AdminView implements Serializable {
         airports = airportRepo.getAirports();
         
         flight = new Flight();
-        airlineAircraft = new Aircraft();
+        airlineAircraft = 0;
         flightAircrafts = new ArrayList<>();
+        flightRadars = new ArrayList<>();
     }
     
     public List<User> getUsers() {
@@ -147,11 +158,11 @@ public class AdminView implements Serializable {
         this.flightStewards = userRepo.getEmployeeWithFlag(flightAirlineSelected, LoginView.UserTypeSteward);
     }
 
-    public Aircraft getAirlineAircraft() {
+    public int getAirlineAircraft() {
         return airlineAircraft;
     }
 
-    public void setAirlineAircraft(Aircraft airlineAircraft) {
+    public void setAirlineAircraft(int airlineAircraft) {
         this.airlineAircraft = airlineAircraft;
     }
 
@@ -217,43 +228,43 @@ public class AdminView implements Serializable {
         this.flightStewards = flightStewards;
     }
 
-    public User getFlightPilot1() {
+    public String getFlightPilot1() {
         return flightPilot1;
     }
 
-    public void setFlightPilot1(User flightPilot1) {
+    public void setFlightPilot1(String flightPilot1) {
         this.flightPilot1 = flightPilot1;
     }
 
-    public User getFlightPilot2() {
+    public String getFlightPilot2() {
         return flightPilot2;
     }
 
-    public void setFlightPilot2(User flightPilot2) {
+    public void setFlightPilot2(String flightPilot2) {
         this.flightPilot2 = flightPilot2;
     }
 
-    public User getFlightSteward1() {
+    public String getFlightSteward1() {
         return flightSteward1;
     }
 
-    public void setFlightSteward1(User flightSteward1) {
+    public void setFlightSteward1(String flightSteward1) {
         this.flightSteward1 = flightSteward1;
     }
 
-    public User getFlightSteward2() {
+    public String getFlightSteward2() {
         return flightSteward2;
     }
 
-    public void setFlightSteward2(User flightSteward2) {
+    public void setFlightSteward2(String flightSteward2) {
         this.flightSteward2 = flightSteward2;
     }
 
-    public User getFlightSteward3() {
+    public String getFlightSteward3() {
         return flightSteward3;
     }
 
-    public void setFlightSteward3(User flightSteward3) {
+    public void setFlightSteward3(String flightSteward3) {
         this.flightSteward3 = flightSteward3;
     }
 
@@ -272,8 +283,114 @@ public class AdminView implements Serializable {
     public void setGateByEndGate(int gateByEndGate) {
         this.gateByEndGate = gateByEndGate;
     }
+
+    public boolean isFlightIsCharter() {
+        return flightIsCharter;
+    }
+
+    public void setFlightIsCharter(boolean flightIsCharter) {
+        this.flightIsCharter = flightIsCharter;
+    }
+
+    public List<Radar> getFlightRadars() {
+        return flightRadars;
+    }
+
+    public void setFlightRadars(List<Radar> flightRadars) {
+        this.flightRadars = flightRadars;
+    }
     
-    public String createFlight() {
+    public void addRadar() {
+        flightRadars.add(new Radar());
+    }
+    
+    public String createFlight() throws AicraftNotFoundException, AirportNotFoundException {
+        AircraftRepository aircraftRepo = new AircraftRepository();
+        AirportRepository airportRepo = new AirportRepository();
+        GateRepository gateRepo = new GateRepository();
+        UserRepository userRepo = new UserRepository();
+        RadarRepository radarRepo = new RadarRepository();
+        FlightRepository flightRepo = new FlightRepository();
+        
+        Aircraft aircraft = aircraftRepo.getAircraftById(airlineAircraft);
+        if (aircraft == null) {
+            throw new AicraftNotFoundException(airlineAircraft);
+        }
+
+        Airport departureAirport = airportRepo.getAirportById(airportDepId);
+        if (departureAirport == null) {
+            throw new AirportNotFoundException(airportDepId);
+        }
+
+        Airport arrivalAirport = airportRepo.getAirportById(airportArrId);
+        if (arrivalAirport == null) {
+            throw new AirportNotFoundException(airportArrId);
+        }
+
+        Gate departureGate = gateRepo.getGateById(gateByStartGate);
+        if (departureGate == null) {
+            throw new GateNotFoundException(gateByStartGate);
+        }
+
+        Gate arrivalGate = gateRepo.getGateById(gateByEndGate);
+        if (arrivalGate == null) {
+            throw new GateNotFoundException(gateByEndGate);
+        }
+        
+        List<String> radarList = new ArrayList<>();
+        radarList.add(departureAirport.getId());
+        flightRadars.stream().map((radar) -> {
+            radarRepo.confirmRadar(radar);
+            return radar;
+        }).forEachOrdered((radar) -> {
+            radarList.add(radar.getName());
+        });
+        radarRepo.confirmRadar(new Radar(departureAirport.getId()));
+        radarRepo.confirmRadar(new Radar(arrivalAirport.getId()));
+        radarList.add(arrivalAirport.getId());
+        
+        List<Radar> radars = radarRepo.getRadarList(radarList.toArray(new String[0]));
+        
+        List<String> crewMembers = new ArrayList<>();
+        crewMembers.add(flightPilot1);
+        crewMembers.add(flightPilot2);
+        crewMembers.add(flightSteward1);
+        crewMembers.add(flightSteward2);
+        crewMembers.add(flightSteward3);
+        
+        List<User> crew = userRepo.getCrew(crewMembers.toArray(new String[0]));
+        
+        byte isCharter = (byte)(flightIsCharter ? 1 : 0);
+        if (flightIsCharter) {
+            Flight newFlight = new Flight(aircraft, 
+                    arrivalAirport, departureAirport, arrivalGate, departureGate, flight.getFlightId(),
+                    isCharter, flight.getDeparture(), new Date(flight.getDeparture().getTime() + (flight.getDuration() * 60000)), 
+                    flight.getDuration(), "P", 0);
+            
+            flightRepo.createFlight(newFlight, radars, crew);
+        } else {
+            Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("CET"));
+            cal.setTime(flight.getDeparture());
+            int currentWeek = cal.get(Calendar.WEEK_OF_MONTH);
+            
+            while (true) {
+                Flight newFlight = new Flight(aircraft, 
+                    arrivalAirport, departureAirport, arrivalGate, departureGate, flight.getFlightId(),
+                    isCharter, cal.getTime(), new Date(cal.getTime().getTime() + (flight.getDuration() * 60000)), 
+                    flight.getDuration(), "P", 0);
+            
+                flightRepo.createFlight(newFlight, radars, crew);
+                  
+                cal.add(Calendar.WEEK_OF_MONTH, 1);
+                if (currentWeek < cal.get(Calendar.WEEK_OF_MONTH)) {
+                    currentWeek = cal.get(Calendar.WEEK_OF_MONTH);
+                } else {
+                    break;
+                }
+            }
+            
+        }
+        
         return null;
     }
 }

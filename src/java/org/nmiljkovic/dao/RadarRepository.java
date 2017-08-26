@@ -24,10 +24,10 @@ public class RadarRepository {
     Session session = null;
     
     public RadarRepository() {
-        this.session = HibernateUtil.getSessionFactory().openSession();
     }
 
     public List<Radar> getRadarList(String[] radarNames) {
+        this.session = HibernateUtil.getSessionFactory().openSession();
         List<Radar> radarList = null;
         try {
             org.hibernate.Transaction tran = session.beginTransaction();
@@ -42,6 +42,21 @@ public class RadarRepository {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        this.session.close();
         return radarList;
+    }
+
+    public void confirmRadar(Radar radar) {
+        this.session = HibernateUtil.getSessionFactory().openSession();
+        try {
+            org.hibernate.Transaction tran = session.beginTransaction();
+            this.session.saveOrUpdate(radar);
+        } catch (Exception exc) {
+            exc.printStackTrace();
+        } finally {
+            this.session.getTransaction().commit();
+        }
+        
+        this.session.close();
     }
 }
