@@ -9,6 +9,7 @@ import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.nmiljkovic.models.Aircraft;
+import org.nmiljkovic.models.AircraftType;
 import org.nmiljkovic.models.Airways;
 import org.nmiljkovic.site.HibernateUtil;
 
@@ -60,5 +61,19 @@ public class AircraftRepository {
             e.printStackTrace();
         }
         return aircrafts;
+    }
+
+    public void save(AircraftType aircraft) {
+        try {
+            org.hibernate.Transaction tran = session.beginTransaction();
+            session.save(aircraft);
+        } catch (Exception exc) {
+            exc.printStackTrace();
+        } finally {
+            session.getTransaction().commit();
+        }
+        
+        session.close();
+    }
     }
 }

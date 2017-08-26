@@ -132,6 +132,40 @@
                 </h:form>
             </div>
         </div>
+        <div>Aircraft</div>
+        <div class="ui-g">
+            <h:form id="aircraftForm" enctype="multipart/form-data">
+                <p:growl id="messages" showDetail="true" />
+                
+                <p:panelGrid columns="2">
+                    <p:outputLabel value="Name:" for="inputAircraftName" />
+                    <p:inputText id="inputAircraftName" value="#{aircraftCreationView.name}" />
+
+                    <p:outputLabel value="Manufacturer:" for="inputAircraftManufacturer" />
+                    <p:selectOneMenu id="inputAircraftManufacturer" value="#{aircraftCreationView.manufacturer}">
+                        <f:selectItem itemLabel="Select One" itemValue="" />
+                        <f:selectItems value="#{aircraftCreationView.manufacturers}" var="manu" itemValue="#{manu.id}" itemLabel="#{manu.name}"/>
+                    </p:selectOneMenu>
+
+                    <p:outputLabel value="Length:" for="inputAircraftLen" />
+                    <p:inputText id="inputAircraftLen" value="#{aircraftCreationView.length}" />
+
+                    <p:outputLabel value="Speed:" for="inputAircraftSpeed" />
+                    <p:inputText id="inputAircraftSpeed" value="#{aircraftCreationView.speed}" />
+
+                    <p:outputLabel value="License:" for="inputAircraftLic" />
+                    <p:inputText id="inputAircraftLic" value="#{aircraftCreationView.license}" />
+
+                    <p:outputLabel value="Capacity:" for="inputAircraftCap" />
+                    <p:inputText id="inputAircraftCap" value="#{aircraftCreationView.capacity}" />
+
+                    <p:outputLabel value="Capacity:" for="inputAircraftImg" />
+                    <p:fileUpload id="inputAircraftImg" value="#{aircraftCreationView.img}" mode="simple" skinSimple="true"/>
+                    
+                    <p:commandButton value="Create Aircraft" actionListener="#{aircraftCreationView.createAircraft}" type="submit" ajax="false"/>
+                </p:panelGrid>
+            </h:form>
+        </div>
         <div>Flights</div>
         <h:form id="flightForm">
             <p:messages autoUpdate="true" />
