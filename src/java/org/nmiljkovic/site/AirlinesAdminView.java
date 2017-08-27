@@ -73,7 +73,7 @@ public class AirlinesAdminView implements Serializable {
 
     private void loadReservations() {
         ReservationRepository reservationRepo = new ReservationRepository();
-        reservationRequests = reservationRepo.getReservatiupdate="reservations"onsForAirways(userAirways.getId());
+        reservationRequests = reservationRepo.getReservationsForAirways(userAirways.getId());
     }
     
     public void checkoutFlight(int id) {
