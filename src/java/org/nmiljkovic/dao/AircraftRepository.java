@@ -75,5 +75,4 @@ public class AircraftRepository {
         
         session.close();
     }
-    }
 }

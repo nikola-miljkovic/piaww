@@ -42,6 +42,8 @@ public class LoginView implements Serializable {
         
         context.getExternalContext().getSessionMap().put("user", user);
         switch (user.getFlag()) {
+            case UserTypeAirlines:
+                return "airlines?faces-redirect=true";
             case UserTypeAdmin:
                 return "admin?faces-redirect=true";
             default: {

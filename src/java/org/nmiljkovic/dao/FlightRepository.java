@@ -102,6 +102,22 @@ public class FlightRepository {
         } finally {
             session.getTransaction().commit();
         }
+    
+        return flights;
+    }
+
+    public List<Flight> getFlightsForAirlines(Integer id) {
+        List<Flight> flights = null;
+        try {
+            session.beginTransaction();
+            Query q = session.createQuery("from Flight as flight where " 
+                    + "flight.aircraft.airways.id = " + id  + " order by flight.departure");
+            flights = (List<Flight>)q.list();
+        } catch (Exception exc) {
+            
+        } finally {
+            session.getTransaction().commit();
+        }
         
         return flights;
     }

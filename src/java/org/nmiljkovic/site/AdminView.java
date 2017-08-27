@@ -304,7 +304,7 @@ public class AdminView implements Serializable {
         flightRadars.add(new Radar());
     }
     
-    public String createFlight() throws AicraftNotFoundException, AirportNotFoundException {
+    public String createFlight() throws AicraftNotFoundException, AirportNotFoundException, GateNotFoundException {
         AircraftRepository aircraftRepo = new AircraftRepository();
         AirportRepository airportRepo = new AirportRepository();
         GateRepository gateRepo = new GateRepository();
