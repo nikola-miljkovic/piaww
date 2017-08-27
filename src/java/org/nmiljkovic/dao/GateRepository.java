@@ -21,10 +21,10 @@ public class GateRepository {
     Session session = null;
     
     public GateRepository() {
-        this.session = HibernateUtil.getSessionFactory().openSession();
     }
 
     public Gate getGate(String airport, int terminal, String gate) {
+        this.session = HibernateUtil.getSessionFactory().openSession();
         Gate gateObj = null;
         try {
             org.hibernate.Transaction tran = session.beginTransaction();
@@ -37,10 +37,12 @@ public class GateRepository {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        session.close();
         return gateObj;
     }
 
     public Gate getGateById(int gateId) {
+        this.session = HibernateUtil.getSessionFactory().openSession();
         Gate gateObj = null;
         try {
             org.hibernate.Transaction tran = session.beginTransaction();
@@ -50,10 +52,12 @@ public class GateRepository {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        session.close();
         return gateObj;
     }
 
     public void createGate(Gate gate) {
+        this.session = HibernateUtil.getSessionFactory().openSession();
         try {
             session.beginTransaction();
             session.save(gate);
@@ -62,9 +66,11 @@ public class GateRepository {
         } finally {
             session.getTransaction().commit();
         }
+        session.close();
     }
     
     public List<Gate> getGatesForAirport(String airport) {
+        this.session = HibernateUtil.getSessionFactory().openSession();
         List<Gate> gates = null;
         try {
             org.hibernate.Transaction tran = session.beginTransaction();
@@ -75,6 +81,7 @@ public class GateRepository {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        session.close();
         return gates;
     }
 }

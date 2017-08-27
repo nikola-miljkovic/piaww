@@ -21,10 +21,11 @@ public class ManufactureRepository {
     Session session = null;
     
     public ManufactureRepository() {
-        this.session = HibernateUtil.getSessionFactory().openSession();
+        
     }
 
     public List<Manufacturer> getManufacturers() {
+        this.session = HibernateUtil.getSessionFactory().openSession();
         List<Manufacturer> manufacturers = null;
         try {
             org.hibernate.Transaction tran = session.beginTransaction();
@@ -34,6 +35,7 @@ public class ManufactureRepository {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        session.close();
         return manufacturers;
     }
 }

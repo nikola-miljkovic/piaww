@@ -65,7 +65,7 @@ CREATE TABLE `aircraft_type` (
   PRIMARY KEY (`id`),
   KEY `manufacturer_type_idx` (`manufacturer`),
   CONSTRAINT `manufacturer_type` FOREIGN KEY (`manufacturer`) REFERENCES `manufacturer` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -74,7 +74,7 @@ CREATE TABLE `aircraft_type` (
 
 LOCK TABLES `aircraft_type` WRITE;
 /*!40000 ALTER TABLE `aircraft_type` DISABLE KEYS */;
-INSERT INTO `aircraft_type` VALUES (1,2,'A330',57.500,870,'AZ',254),(2,2,'A320',37.500,828,'AZ',174),(3,2,'A319',33.800,828,'AZ',144);
+INSERT INTO `aircraft_type` VALUES (1,2,'A330',57.500,870,'AZ',254),(2,2,'A320',37.500,828,'AZ',174),(3,2,'A319',33.800,828,'AZ',144),(4,2,'BMWX6',123.000,123,'AZ',0);
 /*!40000 ALTER TABLE `aircraft_type` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -189,30 +189,6 @@ LOCK TABLES `crew` WRITE;
 /*!40000 ALTER TABLE `crew` DISABLE KEYS */;
 INSERT INTO `crew` VALUES (23,27),(27,27),(28,27),(32,27),(35,27),(23,28),(27,28),(28,28),(32,28),(35,28),(23,29),(27,29),(28,29),(32,29),(35,29),(23,30),(27,30),(28,30),(32,30),(35,30),(23,31),(27,31),(28,31),(32,31),(35,31),(23,32),(24,32),(30,32),(31,32),(32,32),(23,33),(24,33),(30,33),(31,33),(32,33),(26,34),(27,34),(29,34),(34,34),(36,34),(37,34),(26,35),(27,35),(29,35),(34,35),(36,35),(37,35),(23,36),(24,36),(30,36),(31,36),(32,36),(23,37),(24,37),(30,37),(31,37),(32,37),(23,38),(27,38),(29,38),(32,38),(34,38);
 /*!40000 ALTER TABLE `crew` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `employed_at`
---
-
-DROP TABLE IF EXISTS `employed_at`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `employed_at` (
-  `user` int(11) DEFAULT NULL,
-  `airlines` int(11) DEFAULT NULL,
-  KEY `employed_at_user_idx` (`user`),
-  CONSTRAINT `employed_at_user` FOREIGN KEY (`user`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `employed_at`
---
-
-LOCK TABLES `employed_at` WRITE;
-/*!40000 ALTER TABLE `employed_at` DISABLE KEYS */;
-/*!40000 ALTER TABLE `employed_at` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -368,6 +344,38 @@ INSERT INTO `radar` VALUES ('BEG'),('BUD'),('TGD'),('TIV'),('TRT'),('ZLA');
 UNLOCK TABLES;
 
 --
+-- Table structure for table `reservation_request`
+--
+
+DROP TABLE IF EXISTS `reservation_request`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `reservation_request` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `aircraft` int(11) NOT NULL,
+  `owner` int(11) NOT NULL,
+  `requester` int(11) NOT NULL,
+  `status` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `reservation_aircraft_idx` (`aircraft`),
+  KEY `reservation_owner_idx` (`owner`),
+  KEY `reservation_requester_idx` (`requester`),
+  CONSTRAINT `reservation_aircraft` FOREIGN KEY (`aircraft`) REFERENCES `aircraft` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `reservation_owner` FOREIGN KEY (`owner`) REFERENCES `airways` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `reservation_requester` FOREIGN KEY (`requester`) REFERENCES `airways` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `reservation_request`
+--
+
+LOCK TABLES `reservation_request` WRITE;
+/*!40000 ALTER TABLE `reservation_request` DISABLE KEYS */;
+/*!40000 ALTER TABLE `reservation_request` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `user`
 --
 
@@ -389,7 +397,7 @@ CREATE TABLE `user` (
   UNIQUE KEY `username_UNIQUE` (`username`),
   KEY `user_employer_idx` (`employer`),
   CONSTRAINT `user_employer` FOREIGN KEY (`employer`) REFERENCES `airways` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -398,7 +406,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (21,4,'Nikola','Miljkovic','2017-08-24','milja13375@gmail.com','djodzo','djodzo1234',1),(22,3,'djordjevic','djordjevic','1990-08-24','djordjevic@gmail.com','djordjevic','test1234',1),(23,3,'jevdjevic','jevdjevic','1990-08-24','jevdjevicxdd@gmail.com','jevdjevic','test1234',1),(24,3,'teodosic','teodosic','1990-08-24','teodosic@gmail.com','teodosic','test1234',1),(25,3,'marjanovic','marjanovic','1990-08-24','marjanovic@gmail.com','marjanovic','test1234',1),(26,3,'filipovic','filipovic','1990-08-24','filipovic@gmail.com','filipovic','test1234',1),(27,3,'prlainovic','prlainovic','1990-08-24','prlainovic@gmai.com','prlainovic','test1234',1),(28,2,'vesnavulovic','vesnavulovic','1990-08-24','vesnavulovic@gmai.com','vesnavulovic','test1234',1),(29,2,'nadastankovic','nadastankovic','1990-08-24','nadastankovic@gmai.com','nadastankovic','test1234',1),(30,2,'dusicaspasic','dusicaspasic','1990-08-24','dusicaspasic@gmai.com','dusicaspasic','test1234',1),(31,2,'natasamiljkovic','natasamiljkovic','1990-08-24','natasamiljkovic@gmai.com','natasamiljkovic','test1234',1),(32,2,'sanjapetrovic','sanjapetrovic','1990-08-24','sanjapetrovic@gmai.com','sanjapetrovic','test1234',1),(33,2,'majanenadic','majanenadic','1990-08-24','majanenadicc@gmai.com','majanenadic','test1234',1),(34,2,'katarinasreckovic','katarinasreckovic','1990-08-24','katarinasreckovic@gmai.com','katarinasreckovic','test1234',1),(35,2,'jovanagrbic','jovanagrbic','1990-08-24','jovanagrbic@gm.com','jovanagrbic','test1234',1),(36,2,'tijanadimitrijevic','tijanadimitrijevic','1990-08-24','tijanadimitrijevic@gg.com','tijanadimitrijevic','test1234',1),(37,2,'marijapetrovic','marijapetrovic','1990-08-24','marijapetrovic@gmai.com','marijapetrovic','test1234',1);
+INSERT INTO `user` VALUES (21,4,'Nikola','Miljkovic','2017-08-24','milja13375@gmail.com','djodzo','djodzo1234',1),(22,3,'djordjevic','djordjevic','1990-08-24','djordjevic@gmail.com','djordjevic','test1234',1),(23,3,'jevdjevic','jevdjevic','1990-08-24','jevdjevicxdd@gmail.com','jevdjevic','test1234',1),(24,3,'teodosic','teodosic','1990-08-24','teodosic@gmail.com','teodosic','test1234',1),(25,3,'marjanovic','marjanovic','1990-08-24','marjanovic@gmail.com','marjanovic','test1234',1),(26,3,'filipovic','filipovic','1990-08-24','filipovic@gmail.com','filipovic','test1234',1),(27,3,'prlainovic','prlainovic','1990-08-24','prlainovic@gmai.com','prlainovic','test1234',1),(28,2,'vesnavulovic','vesnavulovic','1990-08-24','vesnavulovic@gmai.com','vesnavulovic','test1234',1),(29,2,'nadastankovic','nadastankovic','1990-08-24','nadastankovic@gmai.com','nadastankovic','test1234',1),(30,2,'dusicaspasic','dusicaspasic','1990-08-24','dusicaspasic@gmai.com','dusicaspasic','test1234',1),(31,2,'natasamiljkovic','natasamiljkovic','1990-08-24','natasamiljkovic@gmai.com','natasamiljkovic','test1234',1),(32,2,'sanjapetrovic','sanjapetrovic','1990-08-24','sanjapetrovic@gmai.com','sanjapetrovic','test1234',1),(33,2,'majanenadic','majanenadic','1990-08-24','majanenadicc@gmai.com','majanenadic','test1234',1),(34,2,'katarinasreckovic','katarinasreckovic','1990-08-24','katarinasreckovic@gmai.com','katarinasreckovic','test1234',1),(35,2,'jovanagrbic','jovanagrbic','1990-08-24','jovanagrbic@gm.com','jovanagrbic','test1234',1),(36,2,'tijanadimitrijevic','tijanadimitrijevic','1990-08-24','tijanadimitrijevic@gg.com','tijanadimitrijevic','test1234',1),(37,2,'marijapetrovic','marijapetrovic','1990-08-24','marijapetrovic@gmai.com','marijapetrovic','test1234',1),(38,1,'tester','tester','1990-08-24','tester@gmail.com','tester','test1234',1);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -411,4 +419,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-08-26 18:57:30
+-- Dump completed on 2017-08-27 20:00:14

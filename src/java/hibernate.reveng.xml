@@ -41,17 +41,17 @@ Contributor(s):
 -->
 <hibernate-reverse-engineering>
   <schema-selection match-catalog="pia_prj"/>
-  <table-filter match-name="crew"/>
-  <table-filter match-name="booking"/>
-  <table-filter match-name="airways"/>
-  <table-filter match-name="manufacturer"/>
-  <table-filter match-name="aircraft"/>
-  <table-filter match-name="user"/>
-  <table-filter match-name="radar"/>
-  <table-filter match-name="flight_radars"/>
   <table-filter match-name="aircraft_type"/>
-  <table-filter match-name="flight"/>
+  <table-filter match-name="radar"/>
+  <table-filter match-name="user"/>
+  <table-filter match-name="airways"/>
+  <table-filter match-name="crew"/>
   <table-filter match-name="gate"/>
+  <table-filter match-name="flight"/>
+  <table-filter match-name="aircraft"/>
   <table-filter match-name="airport"/>
-  <table-filter match-name="employed_at"/>
+  <table-filter match-name="booking"/>
+  <table-filter match-name="flight_radars"/>
+  <table-filter match-name="manufacturer"/>
+  <table-filter match-name="reservation_request"/>
 </hibernate-reverse-engineering>

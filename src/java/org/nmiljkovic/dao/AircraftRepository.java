@@ -21,10 +21,10 @@ public class AircraftRepository {
     Session session = null;
     
     public AircraftRepository() {
-        this.session = HibernateUtil.getSessionFactory().openSession();
     }
     
     public Aircraft getAircraftById(int id) {
+        this.session = HibernateUtil.getSessionFactory().openSession();
         Aircraft aircraft = null;
         try {
             org.hibernate.Transaction tran = session.beginTransaction();
@@ -34,10 +34,13 @@ public class AircraftRepository {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        
+        session.close();
         return aircraft;
     }
 
     public List<Aircraft> getAircrafts() {
+        this.session = HibernateUtil.getSessionFactory().openSession();
         List<Aircraft> aircrafts = null;
         try {
             org.hibernate.Transaction tran = session.beginTransaction();
@@ -47,10 +50,12 @@ public class AircraftRepository {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        session.close();
         return aircrafts;
     }
 
     public List<Aircraft> getAircraftForAirlines(Integer id) {
+        this.session = HibernateUtil.getSessionFactory().openSession();
         List<Aircraft> aircrafts = null;
         try {
             org.hibernate.Transaction tran = session.beginTransaction();
@@ -60,10 +65,12 @@ public class AircraftRepository {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        session.close();
         return aircrafts;
     }
 
     public void save(AircraftType aircraft) {
+        this.session = HibernateUtil.getSessionFactory().openSession();
         try {
             org.hibernate.Transaction tran = session.beginTransaction();
             session.save(aircraft);
@@ -72,7 +79,6 @@ public class AircraftRepository {
         } finally {
             session.getTransaction().commit();
         }
-        
         session.close();
     }
 }

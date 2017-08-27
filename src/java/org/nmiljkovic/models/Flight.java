@@ -1,5 +1,5 @@
 package org.nmiljkovic.models;
-// Generated Aug 25, 2017 1:49:43 PM by Hibernate Tools 4.3.1
+// Generated Aug 27, 2017 8:06:21 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -49,6 +49,7 @@ public class Flight  implements java.io.Serializable {
         this.status = status;
         this.booked = booked;
     }
+    
     public Flight(Aircraft aircraft, Airport airportByAirport, Airport airportByDestAirport, Gate gateByEndGate, Gate gateByStartGate, String flightId, byte charter, Date departure, Date arrival, int duration, String status, Date eta, Date arrivedAt, int booked, Set bookings, Set flightRadarses, Set crews) {
        this.aircraft = aircraft;
        this.airportByAirport = airportByAirport;

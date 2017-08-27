@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Aug 25, 2017 1:49:43 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated Aug 27, 2017 8:06:21 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="org.nmiljkovic.models.FlightRadars" table="flight_radars" catalog="pia_prj" optimistic-lock="version">
         <composite-id name="id" class="org.nmiljkovic.models.FlightRadarsId">

@@ -20,10 +20,11 @@ public class BookingRepository {
     Session session = null;
     
     public BookingRepository() {
-        this.session = HibernateUtil.getSessionFactory().openSession();
+        
     }
 
     public String bookFlight(int flightId, String firstName, String lastName, long passport, String creditCardNumber, int count) {
+        this.session = HibernateUtil.getSessionFactory().openSession();
         String flightCode = null;
         try {
             Flight flight = new Flight();
@@ -45,7 +46,7 @@ public class BookingRepository {
         } finally {
             session.getTransaction().commit();
         }
-        
+        session.close();
         return flightCode;
     }
 }

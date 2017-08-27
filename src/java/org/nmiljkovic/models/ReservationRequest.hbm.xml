@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Aug 27, 2017 8:06:21 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="org.nmiljkovic.models.ReservationRequest" table="reservation_request" catalog="pia_prj" optimistic-lock="version">
+        <id name="id" type="java.lang.Integer">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="aircraft" class="org.nmiljkovic.models.Aircraft" fetch="select">
+            <column name="aircraft" not-null="true" />
+        </many-to-one>
+        <many-to-one name="airwaysByRequester" class="org.nmiljkovic.models.Airways" fetch="select">
+            <column name="requester" not-null="true" />
+        </many-to-one>
+        <many-to-one name="airwaysByOwner" class="org.nmiljkovic.models.Airways" fetch="select">
+            <column name="owner" not-null="true" />
+        </many-to-one>
+        <property name="status" type="int">
+            <column name="status" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -21,10 +21,11 @@ public class AirportRepository {
     Session session = null;
     
     public AirportRepository() {
-        this.session = HibernateUtil.getSessionFactory().openSession();
+        
     }
     
     public Airport getAirportById(String id) {
+        this.session = HibernateUtil.getSessionFactory().openSession();
         Airport airport = null;
         try {
             org.hibernate.Transaction tran = session.beginTransaction();
@@ -34,6 +35,7 @@ public class AirportRepository {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        session.close();
         return airport;
     }
 
@@ -46,7 +48,7 @@ public class AirportRepository {
         } finally {
             session.getTransaction().commit();
         }
-        
+        session.close();
         return airport;
     }
 
@@ -60,6 +62,7 @@ public class AirportRepository {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        session.close();
         return airports;
     }
 }

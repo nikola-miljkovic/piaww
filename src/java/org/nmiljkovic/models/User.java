@@ -1,5 +1,5 @@
 package org.nmiljkovic.models;
-// Generated Aug 25, 2017 1:49:43 PM by Hibernate Tools 4.3.1
+// Generated Aug 27, 2017 8:06:21 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -22,7 +22,6 @@ public class User  implements java.io.Serializable {
      private String username;
      private String password;
      private Set crews = new HashSet(0);
-     private Set employedAts = new HashSet(0);
 
     public User() {
     }
@@ -38,7 +37,7 @@ public class User  implements java.io.Serializable {
         this.username = username;
         this.password = password;
     }
-    public User(Airways airways, int flag, String firstName, String lastName, Date dateOfBirth, String email, String username, String password, Set crews, Set employedAts) {
+    public User(Airways airways, int flag, String firstName, String lastName, Date dateOfBirth, String email, String username, String password, Set crews) {
        this.airways = airways;
        this.flag = flag;
        this.firstName = firstName;
@@ -48,7 +47,6 @@ public class User  implements java.io.Serializable {
        this.username = username;
        this.password = password;
        this.crews = crews;
-       this.employedAts = employedAts;
     }
    
     public Integer getId() {
@@ -120,13 +118,6 @@ public class User  implements java.io.Serializable {
     
     public void setCrews(Set crews) {
         this.crews = crews;
-    }
-    public Set getEmployedAts() {
-        return this.employedAts;
-    }
-    
-    public void setEmployedAts(Set employedAts) {
-        this.employedAts = employedAts;
     }
 
 

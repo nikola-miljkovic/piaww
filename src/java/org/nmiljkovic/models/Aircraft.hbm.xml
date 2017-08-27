@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Aug 25, 2017 1:49:43 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated Aug 27, 2017 8:06:21 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="org.nmiljkovic.models.Aircraft" table="aircraft" catalog="pia_prj" optimistic-lock="version">
         <id name="id" type="java.lang.Integer">
@@ -17,6 +17,12 @@
         <many-to-one name="manufacturer" class="org.nmiljkovic.models.Manufacturer" fetch="select">
             <column name="manufacturer" not-null="true" />
         </many-to-one>
+        <set name="reservationRequests" table="reservation_request" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="aircraft" not-null="true" />
+            </key>
+            <one-to-many class="org.nmiljkovic.models.ReservationRequest" />
+        </set>
         <set name="flights" table="flight" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="aircraft" not-null="true" />

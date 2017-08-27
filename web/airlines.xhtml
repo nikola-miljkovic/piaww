@@ -5,7 +5,8 @@
         xmlns:f="http://java.sun.com/jsf/core"
         xmlns:h="http://java.sun.com/jsf/html"
         xmlns:ui="http://java.sun.com/jsf/facelets" 
-        xmlns:p="http://primefaces.org/ui">
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:c="http://java.sun.com/jsp/jstl/core">
     <ui:define name="title">Home</ui:define>
 
     <ui:define name="content">
@@ -15,7 +16,7 @@
             </div>
             <div class="ui-g-10">
                 <h:form id="flightInfo"> 
-                    <p:dataTable var="flight" value="#{airinesAdminView.flightList}" 
+                    <p:dataTable var="flight" value="#{airlinesAdminView.flightList}" 
                             rows="10"
                             paginator="true"
                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -52,7 +53,83 @@
                             </h:outputText>
                         </p:column>
                         <p:column headerText="*" style="text-align: center">
-                            <p:commandButton action="#{airinesAdminView.checkoutFlight(flight.id)}" value="Info" icon="ui-icon-info">
+                            <p:commandButton action="#{airlinesAdminView.checkoutFlight(flight.id)}" value="Info" icon="ui-icon-info">
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+            </div>
+        </div>
+        <div class="ui-g">
+            <div class="ui-g-1">
+            </div>
+            <div class="ui-g-10">
+                <h:form id="reservationForm">
+                    <p:messages autoUpdate="true" />
+                    <p:panelGrid columns="2">
+                        <p:outputLabel value="Airways:" for="inputAirways" />
+                        <p:selectOneMenu id="inputAirways" value="#{airlinesAdminView.selectedAirways}">
+                            <p:ajax event="change" update="reservationForm" />
+                            <f:selectItem itemLabel="Select One" itemValue="" />
+                            <f:selectItems value="#{airlinesAdminView.airwayList}" var="airways" itemValue="#{airways.id}" itemLabel="#{airways.name}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="Aircraft:" for="inputAircraft" />
+                        <p:selectOneMenu id="inputAircraft" value="#{airlinesAdminView.selectedAircraft}">
+                            <f:selectItem itemLabel="Select One" itemValue="" />
+                            <f:selectItems value="#{airlinesAdminView.aircraftList}" var="aircraft" itemValue="#{aircraft.id}" itemLabel="#{aircraft.aircraftType.name} - #{aircraft.id}"/>
+                        </p:selectOneMenu>
+
+                    </p:panelGrid>
+
+                    <p:commandButton value="Create" actionListener="#{airlinesAdminView.createReservation}" />
+                </h:form>
+            </div>
+        </div>
+        <div class="ui-g">
+            <div class="ui-g-1">
+            </div>
+            <div class="ui-g-10">
+                <h:form id="reservations"> 
+                    <p:dataTable var="reservation" value="#{airlinesAdminView.reservationRequests}" 
+                            rows="10"
+                            paginator="true"
+                            paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                            rowsPerPageTemplate="10,20,50">
+                        <p:column headerText="Aircraft Id:" style="text-align: center">
+                            <h:outputText value="#{reservation.aircraft.id}" />
+                        </p:column>
+                        
+                        <p:column headerText="Aircraft Name:" style="text-align: center">
+                            <h:outputText value="#{reservation.aircraft.aircraftType.name}" />
+                        </p:column>
+
+                        <p:column headerText="Requester:" style="text-align: center">
+                            <h:outputText value="#{reservation.airwaysByRequester.name}" />
+                        </p:column>
+                        
+                        <p:column headerText="Status:" style="text-align: center">
+                            <h:outputText value="#{airlinesAdminView.reservationString[reservation.status]}"/>
+                        </p:column>
+                        
+                        <p:column headerText="*" style="text-align: center">
+                            <p:commandButton action="#{airlinesAdminView.approveReservation(reservation)}" 
+                                             rendered="#{reservation.status eq 0}"
+                                             value="Allow" 
+                                             update="reservations"
+                                             icon="ui-icon-info">
+                            </p:commandButton>
+                            <p:commandButton action="#{airlinesAdminView.forbidReservation(reservation)}" 
+                                             rendered="#{reservation.status eq 0}"
+                                             value="Forbid" 
+                                             update="reservations"
+                                             icon="ui-icon-info">
+                            </p:commandButton>
+                            <p:commandButton action="#{airlinesAdminView.finishReservation(reservation)}" 
+                                             rendered="#{reservation.status eq 1}"
+                                             value="Finish" 
+                                             update="reservations"
+                                             icon="ui-icon-info">
                             </p:commandButton>
                         </p:column>
                     </p:dataTable>
