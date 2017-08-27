@@ -79,6 +79,12 @@
                                 <f:param name="flightId" value="#{flight.id}" />
                                 <f:param name="count" value="#{flightSearchFormView.adults}" />
                             </p:button>
+                            <div class="fb-share-button" data-href="http://localhost:8080/piaapp/faces/flightDetail.xhtml?flightId=#{flight.id}&amp;count=#{flightSearchFormView.adults}" data-layout="button"></div>
+                            <a class="twitter-share-button"
+                                href="https://twitter.com/intent/tweet"
+                                data-text="Hey, checkout this awesome flight! "
+                                data-url="http://localhost:8080/piaapp/faces/flightDetail.xhtml?flightId=#{flight.id}&amp;count=#{flightSearchFormView.adults}">
+                              Tweet</a>
                         </p:column>
                     </p:dataTable>
                 </h:form>
