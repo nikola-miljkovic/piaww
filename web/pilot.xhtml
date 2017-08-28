@@ -24,7 +24,7 @@
                         <h:outputText value="#{pilotView.currentLocation.name}"/>
                         
                         <f:facet name="footer">
-                            <p:commandButton action="#{pilotView.updateState(pilotView.currentFlight.id)}" value="Update state" icon="ui-icon-info" update="currentFlightInfo">
+                            <p:commandButton action="#{pilotView.updateState(pilotView.currentFlight.id)}" value="Update state" icon="ui-icon-info" update="@all">
                             </p:commandButton>
                         </f:facet>
                     </p:panelGrid>
@@ -73,7 +73,7 @@
                             </h:outputText>
                         </p:column>
                         <p:column headerText="*" style="text-align: center">
-                            <p:commandButton action="#{pilotView.startFlight(flight.id)}" value="Take off" icon="ui-icon-info" update="pilotFlightInfo">
+                            <p:commandButton action="#{pilotView.startFlight(flight.id)}" value="Take off" icon="ui-icon-info" update="@all">
                             </p:commandButton>
                         </p:column>
                     </p:dataTable>

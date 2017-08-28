@@ -9,6 +9,7 @@ import javax.faces.bean.ManagedBean;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
 import org.nmiljkovic.dao.FlightRepository;
@@ -32,7 +33,10 @@ public class FlightSearchFormView implements Serializable {
     
     public FlightSearchFormView() {
         super();
-        
+    }
+    
+    @PostConstruct
+    public void prepare() {
         FlightRepository flightRepo = new FlightRepository();
         flightList = flightRepo.getTodaysFlights();
     }

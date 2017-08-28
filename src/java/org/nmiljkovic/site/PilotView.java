@@ -29,7 +29,7 @@ import org.nmiljkovic.models.ReservationRequest;
 import org.nmiljkovic.models.User;
 
 @ManagedBean
-@ViewScoped
+@RequestScoped
 public class PilotView implements Serializable {
    
     private List<Flight> pilotFlights;
@@ -42,6 +42,10 @@ public class PilotView implements Serializable {
     
     @PostConstruct
     public void prepare() {
+        loadContext();
+    }
+    
+    private void loadContext() {
         FacesContext context = FacesContext.getCurrentInstance();
         User user = (User) context.getExternalContext().getSessionMap().get("user");
         
@@ -82,6 +86,8 @@ public class PilotView implements Serializable {
     public void updateState(int flightId) {
         FlightRepository flightRepo = new FlightRepository();
         flightRepo.updateFlight(flightId, currentFlightRadarCount);
+        
+        loadContext();
     }
     
     public void startFlight(int flightId) {
@@ -92,5 +98,7 @@ public class PilotView implements Serializable {
                 break;
             }
         }
+        
+        loadContext();
     }
 }

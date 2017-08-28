@@ -32,10 +32,10 @@ public class FlightRepository {
     Session session = null;
     
     public FlightRepository() {
-        this.session = HibernateUtil.getSessionFactory().openSession();
     }
 
     public Flight createFlight(Flight flight) {
+        this.session = HibernateUtil.getSessionFactory().openSession();
         try {
             session.beginTransaction();
             session.save(flight);
@@ -44,6 +44,7 @@ public class FlightRepository {
         } finally {
             session.getTransaction().commit();
         }
+        this.session.close();
         
         return flight;
     }
@@ -76,6 +77,7 @@ public class FlightRepository {
     }
 
     public List<Flight> getAllFlightsWithCriteria(String departure, String destination, Date departureDate, Date returnDate, int adults, boolean direct, boolean twoWay) {
+        this.session = HibernateUtil.getSessionFactory().openSession();
         List<Flight> flights = null;
         try {
             session.beginTransaction();
@@ -91,26 +93,31 @@ public class FlightRepository {
         } finally {
             session.getTransaction().commit();
         }
+        this.session.close();
         
         return flights;
     }
 
     public List<Flight> getTodaysFlights() {
+        this.session = HibernateUtil.getSessionFactory().openSession();
         List<Flight> flights = null;
         try {
             session.beginTransaction();
-            Query q = session.createQuery("from Flight");
+            Date date = new Date();
+            Query q = session.createQuery("from Flight where departure > :date").setDate("date", date);
             flights = (List<Flight>)q.list();
         } catch (Exception exc) {
             
         } finally {
             session.getTransaction().commit();
         }
-    
+        this.session.close();
+        
         return flights;
     }
 
     public List<Flight> getFlightsForAirlines(Integer id) {
+        this.session = HibernateUtil.getSessionFactory().openSession();
         List<Flight> flights = null;
         try {
             session.beginTransaction();
@@ -122,6 +129,7 @@ public class FlightRepository {
         } finally {
             session.getTransaction().commit();
         }
+        this.session.close();
         
         return flights;
     }
@@ -131,11 +139,12 @@ public class FlightRepository {
         List<Flight> flights = null;
         try {
             Date date = new Date();
-            String hql = "select f from Flight as f, Crew as c where c.user.id = :userId and f.id = c.flight.id and f.departure > :date order by f.departure";
+            String hql = "select f from Flight as f, Crew as c where c.user.id = :userId and f.id = c.flight.id and f.status = 'P' and f.departure > :date order by f.departure";
             flights = (List<Flight>)session.createQuery(hql)
                     .setInteger("userId", pilotId)
                     .setDate("date", date)
                     .list();
+            System.out.println("TEST: " + flights.size());
         } catch (Exception exc) {
             exc.printStackTrace();
         }
