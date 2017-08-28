@@ -18,6 +18,7 @@ import org.nmiljkovic.models.CrewId;
 import org.nmiljkovic.models.Flight;
 import org.nmiljkovic.models.FlightRadars;
 import org.nmiljkovic.models.FlightRadarsId;
+import org.nmiljkovic.models.FlightStatus;
 import org.nmiljkovic.models.Gate;
 import org.nmiljkovic.models.Radar;
 import org.nmiljkovic.models.User;
@@ -78,10 +79,13 @@ public class FlightRepository {
         List<Flight> flights = null;
         try {
             session.beginTransaction();
+            Date date = new Date();
             Query q = session.createQuery("from Flight as flight where " 
-                    + "flight.airportByAirport = '" + departure + "' "
+                    + "flight.departure > :date "
+                    + "and flight.airportByAirport = '" + departure + "' "
                     + "and flight.airportByDestAirport = '" + destination + "' ");
-            flights = (List<Flight>)q.list();
+            
+            flights = (List<Flight>)q.setDate("date", departureDate).list();
         } catch (Exception exc) {
             
         } finally {
@@ -120,5 +124,139 @@ public class FlightRepository {
         }
         
         return flights;
+    }
+    
+    public List<Flight> getFlightsForPilot(int pilotId) {
+        this.session = HibernateUtil.getSessionFactory().openSession();
+        List<Flight> flights = null;
+        try {
+            Date date = new Date();
+            String hql = "select f from Flight as f, Crew as c where c.user.id = :userId and f.id = c.flight.id and f.departure > :date order by f.departure";
+            flights = (List<Flight>)session.createQuery(hql)
+                    .setInteger("userId", pilotId)
+                    .setDate("date", date)
+                    .list();
+        } catch (Exception exc) {
+            exc.printStackTrace();
+        }
+        
+        session.close();
+        return flights;
+    }
+
+    public Flight startFlight(Flight flight) {
+        this.session = HibernateUtil.getSessionFactory().openSession();
+        try {
+            session.beginTransaction();
+            flight.setStatus("F");
+            session.saveOrUpdate(flight);
+            FlightStatus fs = new FlightStatus(flight, 0);
+            session.save(fs);
+        } catch (Exception exc) {
+            
+        } finally {
+            session.getTransaction().commit();
+        }
+        session.close();
+        return flight;
+    }
+
+    public Flight getCurrentFlightForPilot(Integer pilotId) {
+        this.session = HibernateUtil.getSessionFactory().openSession();
+        Flight flight = null;
+        try {
+            String hql = "select f from Flight as f, Crew as c where c.user.id = :userId and f.id = c.flight.id and f.status = 'F'";
+            flight = (Flight)session.createQuery(hql)
+                    .setInteger("userId", pilotId)
+                    .list().get(0);
+        } catch (Exception exc) {
+            exc.printStackTrace();
+        }
+        
+        session.close();
+        
+        return flight;
+    }
+
+    public Radar getRadarForFlight(Integer flightId) {
+        this.session = HibernateUtil.getSessionFactory().openSession();
+        Radar radar = null;
+        try {
+            String hql = "select r from FlightRadars as r, FlightStatus as fs WHERE "
+                    + "r.flight.id = :flightId AND r.id.position = fs.status";
+            FlightRadars fRadar = (FlightRadars)session.createQuery(hql)
+                    .setInteger("flightId", flightId)
+                    .list().get(0);
+            radar = fRadar.getRadar();
+        } catch (Exception exc) {
+            exc.printStackTrace();
+        }
+        
+        session.close();
+        
+        return radar;
+    }
+
+    public Flight getFlightWithId(int flightId) {
+        this.session = HibernateUtil.getSessionFactory().openSession();
+        Flight flight = null;
+        try {
+            String hql = "select f from Flight as f where f.id = :flightId";
+            flight = (Flight)session.createQuery(hql)
+                    .setInteger("flightId", flightId)
+                    .list().get(0);
+        } catch (Exception exc) {
+            exc.printStackTrace();
+        }
+        
+        session.close();
+        
+        return flight;
+    }
+
+    public int updateFlight(int flightId, int count) {
+        this.session = HibernateUtil.getSessionFactory().openSession();
+        try {
+            System.out.println("FLIGHT ID: "+ flightId);
+            session.beginTransaction();
+            String hql = "from FlightStatus as fs where fs.flight.id = :flightId";
+            FlightStatus fs  = (FlightStatus)session.createQuery(hql)
+                    .setInteger("flightId", flightId)
+                    .list().get(0);
+            
+            fs.setStatus(fs.getStatus() + 1);
+            if (fs.getStatus() == count - 1) {
+                hql = "select f from Flight as f where f.id = :flightId";
+                Flight flight  = (Flight)session.createQuery(hql)
+                    .setInteger("flightId", flightId)
+                    .list().get(0);
+                flight.setStatus("D");
+                session.saveOrUpdate(flight);
+            }
+            session.saveOrUpdate(fs);
+        } catch (Exception exc) {
+            exc.printStackTrace();
+        } finally {
+            session.getTransaction().commit();
+        }
+        session.close();
+        return 0;
+    }
+
+    public int getRadarCountForFlight(int flightId) {
+        this.session = HibernateUtil.getSessionFactory().openSession();
+        int count = -1;
+        try {
+            String hql = "select fr from FlightRadars as fr where fr.id.flight = :flightId";
+            count = (int)session.createQuery(hql)
+                    .setInteger("flightId", flightId)
+                    .list().size();
+        } catch (Exception exc) {
+            exc.printStackTrace();
+        }
+        
+        session.close();
+        
+        return count;
     }
 }

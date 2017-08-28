@@ -44,6 +44,8 @@ public class LoginView implements Serializable {
         switch (user.getFlag()) {
             case UserTypeAirlines:
                 return "airlines?faces-redirect=true";
+            case UserTypePilot:
+                return "pilot?faces-redirect=true";
             case UserTypeAdmin:
                 return "admin?faces-redirect=true";
             default: {

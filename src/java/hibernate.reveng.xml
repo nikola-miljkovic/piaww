@@ -48,6 +48,7 @@ Contributor(s):
   <table-filter match-name="crew"/>
   <table-filter match-name="gate"/>
   <table-filter match-name="flight"/>
+  <table-filter match-name="flight_status"/>
   <table-filter match-name="aircraft"/>
   <table-filter match-name="airport"/>
   <table-filter match-name="booking"/>

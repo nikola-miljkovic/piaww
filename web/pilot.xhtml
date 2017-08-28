@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/WEB-INF/templates/masterTemplate.xhtml"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets" 
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <ui:define name="title">Home</ui:define>
+
+    <ui:define name="content">
+        <h:outputText rendered="#{contextBean.isLoggedIn}" value="#{contextBean.username}"></h:outputText>
+        <div class="ui-g">
+            <div class="ui-g-1">
+            </div>
+            <div class="ui-g-10">
+                <h:form id="currentFlightInfo" rendered="#{not empty pilotView.currentFlight}"> 
+                    <p:panelGrid columns="2">
+                        <h:outputText value="Flight ID:"/>
+                        <h:outputText value="#{pilotView.currentFlight.flightId}"/>
+                        
+                        <h:outputText value="Location"/>
+                        <h:outputText value="#{pilotView.currentLocation.name}"/>
+                        
+                        <f:facet name="footer">
+                            <p:commandButton action="#{pilotView.updateState(pilotView.currentFlight.id)}" value="Update state" icon="ui-icon-info" update="currentFlightInfo">
+                            </p:commandButton>
+                        </f:facet>
+                    </p:panelGrid>
+                </h:form>
+            </div>
+        </div>
+        <div class="ui-g">
+            <div class="ui-g-1">
+            </div>
+            <div class="ui-g-10">
+                <h:form id="pilotFlightInfo" rendered="#{pilotView.currentFlight eq null}"> 
+                    <p:dataTable var="flight" value="#{pilotView.pilotFlights}" 
+                            rows="10"
+                            paginator="true"
+                            paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                            rowsPerPageTemplate="10,20,50">
+                        <p:column headerText="Id" style="text-align: center">
+                            <h:outputText value="#{flight.flightId}"/>
+                        </p:column>
+
+                        <p:column headerText="Take-off:" style="text-align: center">
+                            <h:outputText value="#{flight.departure}">
+                                <f:convertDateTime pattern="hh:mm a" />
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column headerText="Landing" style="text-align: center">
+                            <h:outputText value="#{flight.arrival}">
+                                <f:convertDateTime pattern="hh:mm a" />
+                            </h:outputText>
+                        </p:column>
+                        
+                        <p:column headerText="Duration" style="text-align: center">
+                            <h:outputText value="#{flight.durationAsDate}">
+                                <f:convertDateTime pattern="HH:mm" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Space left" style="text-align: center">
+                            <h:outputText value="#{flight.booked}/#{flight.aircraft.aircraftType.capacity}">
+                                <f:convertDateTime pattern="HH:mm" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Airlines" style="text-align: center">
+                            <h:outputText value="#{flight.aircraft.airways.name}">
+                                <f:convertDateTime pattern="HH:mm" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="*" style="text-align: center">
+                            <p:commandButton action="#{pilotView.startFlight(flight.id)}" value="Take off" icon="ui-icon-info" update="pilotFlightInfo">
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>
+

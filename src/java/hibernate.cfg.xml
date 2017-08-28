@@ -57,6 +57,7 @@ Contributor(s):
     <mapping resource="org/nmiljkovic/models/AircraftType.hbm.xml"/>
     <mapping resource="org/nmiljkovic/models/Gate.hbm.xml"/>
     <mapping resource="org/nmiljkovic/models/Manufacturer.hbm.xml"/>
+    <mapping resource="org/nmiljkovic/models/FlightStatus.hbm.xml"/>
     <mapping resource="org/nmiljkovic/models/Airways.hbm.xml"/>
     <mapping resource="org/nmiljkovic/models/ReservationRequest.hbm.xml"/>
     <mapping resource="org/nmiljkovic/models/FlightRadars.hbm.xml"/>

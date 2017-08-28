@@ -1,5 +1,5 @@
 package org.nmiljkovic.models;
-// Generated Aug 27, 2017 8:06:21 PM by Hibernate Tools 4.3.1
+// Generated Aug 28, 2017 6:04:08 PM by Hibernate Tools 4.3.1
 
 
 import java.util.HashSet;

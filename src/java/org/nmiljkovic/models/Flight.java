@@ -1,5 +1,5 @@
 package org.nmiljkovic.models;
-// Generated Aug 27, 2017 8:06:21 PM by Hibernate Tools 4.3.1
+// Generated Aug 28, 2017 6:04:08 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -30,6 +30,7 @@ public class Flight  implements java.io.Serializable {
      private Set bookings = new HashSet(0);
      private Set flightRadarses = new HashSet(0);
      private Set crews = new HashSet(0);
+     private Set flightStatuses = new HashSet(0);
 
     public Flight() {
     }
@@ -49,8 +50,7 @@ public class Flight  implements java.io.Serializable {
         this.status = status;
         this.booked = booked;
     }
-    
-    public Flight(Aircraft aircraft, Airport airportByAirport, Airport airportByDestAirport, Gate gateByEndGate, Gate gateByStartGate, String flightId, byte charter, Date departure, Date arrival, int duration, String status, Date eta, Date arrivedAt, int booked, Set bookings, Set flightRadarses, Set crews) {
+    public Flight(Aircraft aircraft, Airport airportByAirport, Airport airportByDestAirport, Gate gateByEndGate, Gate gateByStartGate, String flightId, byte charter, Date departure, Date arrival, int duration, String status, Date eta, Date arrivedAt, int booked, Set bookings, Set flightRadarses, Set crews, Set flightStatuses) {
        this.aircraft = aircraft;
        this.airportByAirport = airportByAirport;
        this.airportByDestAirport = airportByDestAirport;
@@ -68,6 +68,7 @@ public class Flight  implements java.io.Serializable {
        this.bookings = bookings;
        this.flightRadarses = flightRadarses;
        this.crews = crews;
+       this.flightStatuses = flightStatuses;
     }
    
     public Integer getId() {
@@ -195,6 +196,13 @@ public class Flight  implements java.io.Serializable {
     
     public void setCrews(Set crews) {
         this.crews = crews;
+    }
+    public Set getFlightStatuses() {
+        return this.flightStatuses;
+    }
+    
+    public void setFlightStatuses(Set flightStatuses) {
+        this.flightStatuses = flightStatuses;
     }
 
     public Date getDurationAsDate() {
