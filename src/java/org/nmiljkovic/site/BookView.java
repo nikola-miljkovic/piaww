@@ -1,9 +1,11 @@
 package org.nmiljkovic.site;
 
+import javax.faces.application.FacesMessage;
 import org.nmiljkovic.dao.BookingRepository;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
 
 @ManagedBean
 @RequestScoped
@@ -27,6 +29,11 @@ public class BookView {
         
         BookingRepository bookingRepo = new BookingRepository();
         String bookCode = bookingRepo.bookFlight(flightId, mFirstName, mLastName, passport, creditCardNumber, count);
+        if (bookCode == null) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "No space in aircraft."));
+            return null;
+        }
+        
         return "booking?faces-redirect=true&bookCode=" + bookCode;
     }
     

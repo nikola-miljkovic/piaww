@@ -27,8 +27,17 @@ public class BookingRepository {
         this.session = HibernateUtil.getSessionFactory().openSession();
         String flightCode = null;
         try {
-            Flight flight = new Flight();
-            flight.setId(flightId);
+            this.session.beginTransaction();
+            FlightRepository flightRepo = new FlightRepository();
+            Flight flight = flightRepo.getFlightWithId(flightId);
+            flight.setBooked(flight.getBooked() + count);
+            
+            System.out.println("FLIGHT : " + flight.getAircraft().getAircraftType().getCapacity());
+            System.out.println("FLIGHT : " + flight.getBooked());
+            if (flight.getAircraft().getAircraftType().getCapacity() < flight.getBooked()) {
+                return null;
+            }
+            
             Random rnd = new Random();
             
             String charPool = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -40,6 +49,7 @@ public class BookingRepository {
             Booking booking = new Booking(flight, count, passport, firstName, lastName, creditCardNumber, strBuilder.toString());
             session.beginTransaction();
             session.save(booking);
+            session.saveOrUpdate(flight);
             flightCode = booking.getFlightCode();
         } catch (Exception exc) {
             

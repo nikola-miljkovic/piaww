@@ -48,6 +48,8 @@ public class LoginView implements Serializable {
                 return "pilot?faces-redirect=true";
             case UserTypeAdmin:
                 return "admin?faces-redirect=true";
+            case UserTypeSteward:
+                return "steward?faces-redirect=true";
             default: {
                 return "index?faces-redirect=true";
             }

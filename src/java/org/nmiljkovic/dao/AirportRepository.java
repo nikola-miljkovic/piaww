@@ -40,6 +40,7 @@ public class AirportRepository {
     }
 
     public Airport createAirport(Airport airport) {
+        this.session = HibernateUtil.getSessionFactory().openSession();
         try {
             org.hibernate.Transaction tran = session.beginTransaction();
             session.save(airport);
@@ -53,6 +54,7 @@ public class AirportRepository {
     }
 
     public List<Airport> getAirports() {
+        this.session = HibernateUtil.getSessionFactory().openSession();
         List<Airport> airports = null;
         try {
             org.hibernate.Transaction tran = session.beginTransaction();

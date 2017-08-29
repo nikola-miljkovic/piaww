@@ -12,11 +12,12 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import org.nmiljkovic.dao.FlightRepository;
 import org.nmiljkovic.models.Flight;
 
 @ManagedBean
-@RequestScoped
+@ViewScoped
 public class FlightSearchFormView implements Serializable {
     
     private static final long serialVersionUID = 1L;
@@ -42,7 +43,10 @@ public class FlightSearchFormView implements Serializable {
     }
     
     public void submit() {
-        System.out.println("loginz");
+        if (mReturnDate == null) { 
+            System.out.println("isNull!?");
+        }    
+        
         FlightRepository flightRepo = new FlightRepository();
         flightList = flightRepo.getAllFlightsWithCriteria(mDeparture, mDestination, mDepartureDate, mReturnDate, mAdults, mDirect, mTwoWay);
     }

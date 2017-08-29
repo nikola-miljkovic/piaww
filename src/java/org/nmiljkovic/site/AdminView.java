@@ -391,6 +391,6 @@ public class AdminView implements Serializable {
             
         }
         
-        return null;
+        return "admin?faces-redirect=true";
     }
 }

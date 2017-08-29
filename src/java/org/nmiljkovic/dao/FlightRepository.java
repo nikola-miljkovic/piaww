@@ -81,13 +81,28 @@ public class FlightRepository {
         List<Flight> flights = null;
         try {
             session.beginTransaction();
-            Date date = new Date();
+            Date endOfDayDate = new Date(departureDate.getTime() + 86400000);
             Query q = session.createQuery("from Flight as flight where " 
-                    + "flight.departure > :date AND flight.status = :status "
+                    + "flight.departure > :date and flight.departure < :dateEnd AND flight.status = :status "
                     + "and flight.airportByAirport = '" + departure + "' "
                     + "and flight.airportByDestAirport = '" + destination + "'");
             
-            flights = (List<Flight>)q.setDate("date", departureDate).setCharacter("status", 'P').list();
+            flights = (List<Flight>)q.setDate("date", departureDate)
+                    .setDate("dateEnd", endOfDayDate)
+                    .setCharacter("status", 'P').list();
+            
+            if (returnDate != null) {
+                q = session.createQuery("from Flight as flight where " 
+                    + "flight.departure > :date and flight.departure < :dateEnd AND flight.status = :status "
+                    + "and flight.airportByAirport = '" + destination + "' "
+                    + "and flight.airportByDestAirport = '" + departure + "'");
+                endOfDayDate = new Date(returnDate.getTime() + 86400000);
+                flights.addAll((List<Flight>)q.setDate("date", returnDate)
+                    .setDate("dateEnd", endOfDayDate)
+                    .setCharacter("status", 'P').list());
+                
+                System.out.println("HELLO : " + flights.size());
+            }
         } catch (Exception exc) {
             
         } finally {
@@ -273,5 +288,41 @@ public class FlightRepository {
         session.close();
         
         return count;
+    }
+
+    public List<Flight> getFlightsForSteward(Integer id) {
+        this.session = HibernateUtil.getSessionFactory().openSession();
+        List<Flight> flights = null;
+        try {
+            Date date = new Date();
+            String hql = "select f from Flight as f, Crew as c where c.user.id = :userId and f.id = c.flight.id and f.status = 'P' and f.departure > :date order by f.departure";
+            flights = (List<Flight>)session.createQuery(hql)
+                    .setInteger("userId", id)
+                    .setDate("date", date)
+                    .list();
+        } catch (Exception exc) {
+            exc.printStackTrace();
+        }
+        
+        session.close();
+        return flights;
+    }
+
+    public List<Flight> getOldFlightsForSteward(Integer id) {
+        this.session = HibernateUtil.getSessionFactory().openSession();
+        List<Flight> flights = null;
+        try {
+            Date date = new Date();
+            String hql = "select f from Flight as f, Crew as c where c.user.id = :userId and f.id = c.flight.id and f.status = 'D' and f.departure > :date order by f.departure";
+            flights = (List<Flight>)session.createQuery(hql)
+                    .setInteger("userId", id)
+                    .setDate("date", date)
+                    .list();
+        } catch (Exception exc) {
+            exc.printStackTrace();
+        }
+        
+        session.close();
+        return flights;
     }
 }

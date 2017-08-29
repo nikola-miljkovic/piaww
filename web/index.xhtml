@@ -44,9 +44,15 @@
                 <h:form id="outputFlightInfo"> 
                     <p:dataTable var="flight" value="#{flightSearchFormView.flightList}">
                         <p:column headerText="Id" style="text-align: center">
-                            <h:outputText value="#{flight.flightId}"/>
+                            <h:outputText value="#{flight.flightId} #{flight.airportByAirport.id == flightSearchFormView.destination ? '*' : ' '}"/>
                         </p:column>
 
+                        <p:column headerText="Way:" style="text-align: center">
+                            <h:outputText value="#{flight.airportByAirport.id} - #{flight.airportByDestAirport.id}">
+                                <f:convertDateTime pattern="hh:mm a" />
+                            </h:outputText>
+                        </p:column>
+                        
                         <p:column headerText="Take-off:" style="text-align: center">
                             <h:outputText value="#{flight.departure}">
                                 <f:convertDateTime pattern="hh:mm a" />
@@ -64,6 +70,7 @@
                                 <f:convertDateTime pattern="HH:mm" />
                             </h:outputText>
                         </p:column>
+                        
                         <p:column headerText="Space left" style="text-align: center">
                             <h:outputText value="#{flight.booked}/#{flight.aircraft.aircraftType.capacity}">
                                 <f:convertDateTime pattern="HH:mm" />
