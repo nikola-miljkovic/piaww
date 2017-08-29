@@ -83,11 +83,11 @@ public class FlightRepository {
             session.beginTransaction();
             Date date = new Date();
             Query q = session.createQuery("from Flight as flight where " 
-                    + "flight.departure > :date "
+                    + "flight.departure > :date AND flight.status = :status "
                     + "and flight.airportByAirport = '" + departure + "' "
-                    + "and flight.airportByDestAirport = '" + destination + "' ");
+                    + "and flight.airportByDestAirport = '" + destination + "'");
             
-            flights = (List<Flight>)q.setDate("date", departureDate).list();
+            flights = (List<Flight>)q.setDate("date", departureDate).setCharacter("status", 'P').list();
         } catch (Exception exc) {
             
         } finally {
@@ -104,7 +104,9 @@ public class FlightRepository {
         try {
             session.beginTransaction();
             Date date = new Date();
-            Query q = session.createQuery("from Flight where departure > :date").setDate("date", date);
+            Query q = session.createQuery("from Flight where departure > :date AND status = :status")
+                    .setCharacter("status", 'P')
+                    .setDate("date", date);
             flights = (List<Flight>)q.list();
         } catch (Exception exc) {
             
@@ -158,6 +160,7 @@ public class FlightRepository {
         try {
             session.beginTransaction();
             flight.setStatus("F");
+            flight.setEta(flight.getArrival());
             session.saveOrUpdate(flight);
             FlightStatus fs = new FlightStatus(flight, 0);
             session.save(fs);
@@ -192,7 +195,7 @@ public class FlightRepository {
         Radar radar = null;
         try {
             String hql = "select r from FlightRadars as r, FlightStatus as fs WHERE "
-                    + "r.flight.id = :flightId AND r.id.position = fs.status";
+                    + "r.flight.id = :flightId AND r.flight.id = fs.flight.id AND r.id.position = fs.status";
             FlightRadars fRadar = (FlightRadars)session.createQuery(hql)
                     .setInteger("flightId", flightId)
                     .list().get(0);
@@ -223,7 +226,7 @@ public class FlightRepository {
         return flight;
     }
 
-    public int updateFlight(int flightId, int count) {
+    public int updateFlight(int flightId, int eta, int count) {
         this.session = HibernateUtil.getSessionFactory().openSession();
         try {
             System.out.println("FLIGHT ID: "+ flightId);
@@ -234,14 +237,17 @@ public class FlightRepository {
                     .list().get(0);
             
             fs.setStatus(fs.getStatus() + 1);
+            
+             hql = "select f from Flight as f where f.id = :flightId";
+            Flight flight  = (Flight)session.createQuery(hql)
+                .setInteger("flightId", flightId)
+                .list().get(0);
+            flight.setEta(new Date(new Date().getTime() + (eta * 60000)));
             if (fs.getStatus() == count - 1) {
-                hql = "select f from Flight as f where f.id = :flightId";
-                Flight flight  = (Flight)session.createQuery(hql)
-                    .setInteger("flightId", flightId)
-                    .list().get(0);
                 flight.setStatus("D");
-                session.saveOrUpdate(flight);
+                flight.setArrivedAt(new Date());
             }
+            session.saveOrUpdate(flight);
             session.saveOrUpdate(fs);
         } catch (Exception exc) {
             exc.printStackTrace();

@@ -17,11 +17,17 @@
             <div class="ui-g-10">
                 <h:form id="currentFlightInfo" rendered="#{not empty pilotView.currentFlight}"> 
                     <p:panelGrid columns="2">
-                        <h:outputText value="Flight ID:"/>
+                        <h:outputText value="Flight ID"/>
                         <h:outputText value="#{pilotView.currentFlight.flightId}"/>
                         
                         <h:outputText value="Location"/>
                         <h:outputText value="#{pilotView.currentLocation.name}"/>
+                        
+                        <h:outputText value="Avg. speed"/>
+                        <h:inputText value="#{pilotView.avgSpeed}"/>
+                        
+                        <h:outputText value="Remaining Distance"/>
+                        <h:inputText value="#{pilotView.roadRemaining}"/>
                         
                         <f:facet name="footer">
                             <p:commandButton action="#{pilotView.updateState(pilotView.currentFlight.id)}" value="Update state" icon="ui-icon-info" update="@all">

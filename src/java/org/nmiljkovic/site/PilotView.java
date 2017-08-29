@@ -36,6 +36,8 @@ public class PilotView implements Serializable {
     private Flight currentFlight;
     private int currentFlightRadarCount;
     private Radar currentLocation;
+    private int avgSpeed;
+    private int roadRemaining;
     
     public PilotView() {
     }
@@ -82,10 +84,26 @@ public class PilotView implements Serializable {
     public void setCurrentLocation(Radar currentLocation) {
         this.currentLocation = currentLocation;
     }
+
+    public int getAvgSpeed() {
+        return avgSpeed;
+    }
+
+    public void setAvgSpeed(int avgSpeed) {
+        this.avgSpeed = avgSpeed;
+    }
+
+    public int getRoadRemaining() {
+        return roadRemaining;
+    }
+
+    public void setRoadRemaining(int roadRemaining) {
+        this.roadRemaining = roadRemaining;
+    }
     
     public void updateState(int flightId) {
         FlightRepository flightRepo = new FlightRepository();
-        flightRepo.updateFlight(flightId, currentFlightRadarCount);
+        flightRepo.updateFlight(flightId, getRoadRemaining() / getAvgSpeed(), currentFlightRadarCount);
         
         loadContext();
     }
